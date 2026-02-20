@@ -1,14 +1,12 @@
 import { Component } from '@theme/component';
 
 /**
- * Announcement banner custom element that allows fading between content.
- * Based on the Slideshow component.
+ * Announcement banner custom element that slides between content horizontally.
+ * Matches Embla-style translate3d sliding animation.
  *
  * @typedef {object} Refs
- * @property {HTMLElement} slideshowContainer
+ * @property {HTMLElement} slidesContainer
  * @property {HTMLElement[]} [slides]
- * @property {HTMLButtonElement} [previous]
- * @property {HTMLButtonElement} [next]
  *
  * @extends {Component<Refs>}
  */
@@ -109,11 +107,21 @@ export class AnnouncementBar extends Component {
   set current(current) {
     this.#current = current;
 
-    let relativeIndex = current % (this.refs.slides ?? []).length;
+    const slidesCount = (this.refs.slides ?? []).length;
+    if (slidesCount === 0) return;
+
+    let relativeIndex = current % slidesCount;
     if (relativeIndex < 0) {
-      relativeIndex += (this.refs.slides ?? []).length;
+      relativeIndex += slidesCount;
     }
 
+    // Slide animation using translate3d
+    if (this.refs.slidesContainer) {
+      const offset = -relativeIndex * 100;
+      this.refs.slidesContainer.style.transform = `translate3d(${offset}%, 0px, 0px)`;
+    }
+
+    // Update aria-hidden for accessibility
     this.refs.slides?.forEach((slide, index) => {
       slide.setAttribute('aria-hidden', `${index !== relativeIndex}`);
     });

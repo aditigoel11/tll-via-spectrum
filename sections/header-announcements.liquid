@@ -12,13 +12,12 @@
 <aside
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+  id="announcement-bar-{{ section.id }}"
 >
   {% liquid
     assign autoplay = false
-    assign show_arrows = false
     if section.blocks.size > 1
       assign autoplay = true
-      assign show_arrows = true
     endif
   %}
 
@@ -28,19 +27,39 @@
       autoplay="{{ section.settings.speed }}" aria-live="polite"
     {% endif %}
   >
-    {% if show_arrows %}
-      {% render 'slideshow-arrows', icon_style: 'chevron' %}
-    {% endif %}
-
-    <div class="announcement-bar__slides">
-      {% content_for 'blocks' %}
+    <div class="announcement-bar__viewport">
+      <div class="announcement-bar__slides" ref="slidesContainer">
+        {% content_for 'blocks' %}
+      </div>
     </div>
   </announcement-bar-component>
+
+  <button
+    class="announcement-bar__close"
+    type="button"
+    aria-label="{{ 'general.accessibility.close' | t }}"
+    onclick="this.closest('aside').style.display='none'; sessionStorage.setItem('announcement-bar-closed-{{ section.id }}', 'true');"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
 </aside>
+
+<script>
+  (function() {
+    if (sessionStorage.getItem('announcement-bar-closed-{{ section.id }}') === 'true') {
+      var el = document.getElementById('announcement-bar-{{ section.id }}');
+      if (el) el.style.display = 'none';
+    }
+  })();
+</script>
 
 {% stylesheet %}
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
+    position: relative;
   }
 
   .announcement-bar__slider {
@@ -48,68 +67,26 @@
     flex-direction: row;
     align-items: center;
     position: relative;
+    width: 100%;
 
     @media screen and (max-width: 749px) {
       grid-column: 1 / -1;
     }
   }
 
+  .announcement-bar__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
   .announcement-bar__slides {
-    display: grid;
-    grid: [stack] auto / [stack] auto;
-    width: calc(100% - var(--button-size) * 2);
-    max-width: 680px;
-    margin-inline: auto;
-  }
-
-  .announcement-bar__slides > * {
-    grid-area: stack;
-  }
-
-  .announcement-bar__slide {
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    content-visibility: visible;
-
-    &[aria-hidden='true'] {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-
-  .announcement-bar__slider slideshow-arrows {
-    padding: 0;
-    mix-blend-mode: normal;
-  }
-
-  .announcement-bar__slider slideshow-arrows .slideshow-control {
-    color: var(--color-foreground);
-  }
-
-  .announcement-bar__slider .slideshow-control {
     display: flex;
-    padding: 0;
-    width: var(--button-size);
-    height: var(--button-size);
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    animation: none;
-
-    @media screen and (min-width: 750px) {
-      --slideshow-control-offset: calc((var(--button-size) - var(--icon-size-xs)) / 2);
-
-      .section--page-width &.slideshow-control--previous {
-        transform: translateX(var(--slideshow-control-offset));
-      }
-    }
-  }
-
-  .announcement-bar__slider .slideshow-control .svg-wrapper {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
+    transition: transform 0.5s ease-in-out;
   }
 
   .announcement-bar__slide {
+    flex: 0 0 100%;
+    min-width: 0;
     place-content: center;
   }
 
@@ -120,6 +97,28 @@
   .announcement-bar__link {
     position: absolute;
     inset: 0;
+  }
+
+  .announcement-bar__close {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+    z-index: 1;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+
+  .announcement-bar__close:hover {
+    opacity: 1;
   }
 {% endstylesheet %}
 
