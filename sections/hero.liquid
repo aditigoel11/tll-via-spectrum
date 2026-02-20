@@ -549,6 +549,11 @@
     --hero-height-offset: var(--header-group-height, 0);
   }
 
+  /* When header is transparent, hero fills full viewport with no gap */
+  body:has(> #header-group > .header-section > #header-component[transparent]) .hero-wrapper:first-child {
+    --hero-height-offset: 0px;
+  }
+
   .hero {
     position: relative;
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));

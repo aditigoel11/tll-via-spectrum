@@ -12,22 +12,23 @@
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
-        "text_YLPk4p": {
+        "hero_heading": {
           "type": "text",
-          "name": "t:names.heading",
+          "name": "Heading",
           "settings": {
             "text": "<p>Browse our latest products</p>",
             "width": "fit-content",
             "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
+            "alignment": "center",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "3.75rem",
+            "weight": "700",
+            "line_height": "tight",
             "letter_spacing": "normal",
-            "case": "none",
+            "case": "uppercase",
             "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
+            "color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -38,14 +39,43 @@
           },
           "blocks": {}
         },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
+        "hero_subtitle": {
+          "type": "text",
+          "name": "Subtitle",
           "settings": {
-            "label": "Shop all",
+            "text": "<p>Discover our new season essentials</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.25rem",
+            "weight": "400",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "hero_button": {
+          "type": "button",
+          "name": "Button",
+          "settings": {
+            "label": "Shop Now",
             "link": "shopify://collections/all",
             "open_in_new_tab": false,
-            "style_class": "button-secondary",
+            "style_class": "button",
+            "font_size": "1rem",
+            "font_weight": "600",
             "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fit-content",
@@ -55,8 +85,9 @@
         }
       },
       "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
+        "hero_heading",
+        "hero_subtitle",
+        "hero_button"
       ],
       "name": "t:names.hero",
       "settings": {
