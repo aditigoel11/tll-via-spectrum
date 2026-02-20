@@ -452,7 +452,8 @@
     --header-content-transition-timing: calc(var(--submenu-animation-speed) - var(--animation-speed-fast))
       var(--animation-speed-fast) var(--ease-out-cubic);
 
-    --closed-underlay-height: 0px;
+    --closed-underlay-height: 100%;
+    --closed-underlay-opacity: 0;
 
     /* used to display the appropriate logo based on transparency state */
     --header-logo-display: none;
@@ -475,7 +476,7 @@
       --color-background-rgb: inherit;
       --color-border: inherit;
       --color-border-rgb: inherit;
-      --closed-underlay-height: 100%;
+      --closed-underlay-opacity: 1;
     }
 
     /** For transparent header, apply inherit to rows when menu is not hovered */
@@ -500,6 +501,7 @@
       --color-background-rgb: inherit;
       --color-border: inherit;
       --color-border-rgb: inherit;
+      --closed-underlay-opacity: 1;
       --header-content-transition-timing: var(--submenu-animation-speed) var(--ease-out-cubic);
     }
   }
@@ -583,12 +585,13 @@
 
   .header__underlay-closed {
     height: var(--closed-underlay-height, 100%);
+    opacity: var(--closed-underlay-opacity, 1);
     z-index: var(--layer-lowest);
     background: linear-gradient(
       var(--color-scheme-top-row) 0 var(--top-row-height),
       var(--color-scheme-bottom-row) var(--top-row-height) var(--header-height)
     );
-    transition: height var(--animation-speed-slow) var(--ease-out-cubic);
+    transition: opacity 0.6s ease-in-out;
   }
 
   .header__underlay-open {
