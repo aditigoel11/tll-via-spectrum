@@ -1,0 +1,164 @@
+{%- comment -%}
+  Variant Selector Popup for Product Cards
+  Shows when clicking the plus icon
+{%- endcomment -%}
+
+<div class="variant-selector-popup" id="variant-popup-{{ product.id }}" data-product-id="{{ product.id }}" style="display: none;">
+  <div class="variant-popup-content">
+    <div class="variant-popup-header">
+      <h3>CHOOSE YOUR SIZE</h3>
+      <button class="variant-popup-close" onclick="document.getElementById('variant-popup-{{ product.id }}').style.display='none';">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="variant-popup-options">
+      {%- comment -%} Get unique size values {%- endcomment -%}
+      {%- assign size_option_position = null -%}
+      {%- for option in product.options_with_values -%}
+        {%- if option.name == 'Size' or option.name == 'size' -%}
+          {%- assign size_option_position = option.position -%}
+
+          {%- for value in option.values -%}
+            {%- comment -%} Find the variant with this size {%- endcomment -%}
+            {%- assign variant_for_size = null -%}
+            {%- assign is_available = false -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.option1 == value or variant.option2 == value or variant.option3 == value -%}
+                {%- assign variant_for_size = variant -%}
+                {%- if variant.available -%}
+                  {%- assign is_available = true -%}
+                {%- endif -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            <button
+              class="variant-popup-option {% unless is_available %}variant-popup-option--unavailable{% endunless %}"
+              data-variant-id="{{ variant_for_size.id }}"
+              data-product-id="{{ product.id }}"
+              {% unless is_available %}disabled{% endunless %}
+              onclick="selectVariantAndAddToCart('{{ product.id }}', '{{ variant_for_size.id }}', this)"
+            >
+              {{ value }}
+            </button>
+          {%- endfor -%}
+
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Fallback if no Size option found {%- endcomment -%}
+      {%- if size_option_position == null -%}
+        {%- for variant in product.variants -%}
+          <button
+            class="variant-popup-option {% if variant.available == false %}variant-popup-option--unavailable{% endif %}"
+            data-variant-id="{{ variant.id }}"
+            data-product-id="{{ product.id }}"
+            {% if variant.available == false %}disabled{% endif %}
+            onclick="selectVariantAndAddToCart('{{ product.id }}', '{{ variant.id }}', this)"
+          >
+            {{ variant.title }}
+          </button>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <a href="{{ product.url }}#size-guide" class="variant-popup-size-guide">
+      SIZE GUIDE
+    </a>
+  </div>
+</div>
+
+<script>
+  // Make functions globally available
+  window.openVariantPopup = function(productId) {
+    const popup = document.getElementById('variant-popup-' + productId);
+    if (popup) {
+      popup.style.display = 'block';
+      console.log('Opening popup for product:', productId);
+    } else {
+      console.log('Popup not found for product:', productId);
+    }
+  }
+
+  window.closeVariantPopup = function(productId) {
+    const popup = document.getElementById('variant-popup-' + productId);
+    if (popup) {
+      popup.style.display = 'none';
+    }
+  }
+
+  window.selectVariantAndAddToCart = function(productId, variantId, button) {
+    // Remove selected class from all options
+    const allOptions = button.parentElement.querySelectorAll('.variant-popup-option');
+    allOptions.forEach(opt => opt.classList.remove('selected'));
+
+    // Add selected class to clicked option
+    button.classList.add('selected');
+
+    // Add to cart via AJAX
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        id: variantId,
+        quantity: 1
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Close popup after successful add
+      closeVariantPopup(productId);
+
+      // Optionally trigger cart drawer or update cart count
+      if (window.CartDrawer) {
+        window.CartDrawer.refresh();
+      }
+
+      // Update cart count if element exists
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        fetch('/cart.js')
+          .then(res => res.json())
+          .then(cart => {
+            cartCount.textContent = cart.item_count;
+          });
+      }
+    })
+    .catch(error => {
+      console.error('Error adding to cart:', error);
+    });
+  }
+
+  // Attach click handlers to plus icons as backup
+  document.addEventListener('DOMContentLoaded', function() {
+    // Make sure openVariantPopup is available globally
+    if (typeof window.openVariantPopup === 'undefined') {
+      console.error('openVariantPopup function not found');
+    }
+
+    // Also attach event listeners in case inline onclick doesn't work
+    setTimeout(function() {
+      const quickAddButtons = document.querySelectorAll('.product-card-quick-add');
+      quickAddButtons.forEach(btn => {
+        if (!btn.hasAttribute('data-listener-attached')) {
+          btn.setAttribute('data-listener-attached', 'true');
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const productId = this.getAttribute('data-product-id');
+            if (productId && window.openVariantPopup) {
+              window.openVariantPopup(productId);
+            }
+          });
+        }
+      });
+    }, 100);
+  });
+</script>

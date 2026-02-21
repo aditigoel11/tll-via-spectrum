@@ -1,0 +1,155 @@
+{% liquid
+  assign product = block.settings.product | default: product
+  assign delivery_text = block.settings.delivery_text | default: 'DELIVERY WITHIN 3-4 DAYS'
+  assign return_policy = block.settings.return_policy | default: 'Items are returnable within 7 days of delivery. All items must be returned in their original condition, with price tags attached, user manual, warranty cards, original accessories and in the original manufacturers box or packaging as delivered to you.'
+
+  # Get the short product description from metafield
+  assign short_description = product.metafields.custom.short_product_description
+
+  # Get the style description from metafield, fallback to product description
+  assign style_description = product.metafields.custom.style_description_accordion.value
+  if style_description == blank
+    assign style_description = product.metafields.custom.style_description_accordion
+  endif
+  if style_description == blank
+    assign style_description = product.description
+  endif
+%}
+
+<div class="product-accordion" id="product-accordion-{{ block.id }}">
+  {% if short_description != blank %}
+    <div class="short-description">
+      {{ short_description | metafield_tag }}
+    </div>
+  {% endif %}
+
+  <div class="delivery-info">
+    {{ delivery_text }}
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header" aria-expanded="false" aria-controls="style-description-{{ block.id }}">
+      <span>STYLE DESCRIPTION</span>
+      <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="accordion-content" id="style-description-{{ block.id }}">
+      <div class="accordion-inner">
+        {% if product.metafields.custom.style_description_accordion != blank %}
+          {{ product.metafields.custom.style_description_accordion | metafield_tag }}
+        {% else %}
+          {{ product.description }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header" aria-expanded="false" aria-controls="shipping-returns-{{ block.id }}">
+      <span>SHIPPING & RETURNS</span>
+      <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="accordion-content" id="shipping-returns-{{ block.id }}">
+      <div class="accordion-inner">
+        {{ return_policy }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const accordionId = 'product-accordion-{{ block.id }}';
+    const accordion = document.getElementById(accordionId);
+
+    if (accordion) {
+      const headers = accordion.querySelectorAll('.accordion-header');
+
+      headers.forEach(header => {
+        header.addEventListener('click', function() {
+          const isExpanded = this.getAttribute('aria-expanded') === 'true';
+          const content = this.nextElementSibling;
+          const icon = this.querySelector('.accordion-icon');
+
+          if (isExpanded) {
+            this.setAttribute('aria-expanded', 'false');
+            content.style.maxHeight = '0';
+            icon.style.transform = 'rotate(0deg)';
+          } else {
+            this.setAttribute('aria-expanded', 'true');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            icon.style.transform = 'rotate(180deg)';
+          }
+        });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Accordion",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "delivery_text",
+      "label": "Delivery Text",
+      "default": "DELIVERY WITHIN 3-4 DAYS"
+    },
+    {
+      "type": "textarea",
+      "id": "return_policy",
+      "label": "Return Policy",
+      "default": "Items are returnable within 7 days of delivery. All items must be returned in their original condition, with price tags attached, user manual, warranty cards, original accessories and in the original manufacturers box or packaging as delivered to you."
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

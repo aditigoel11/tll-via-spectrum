@@ -87,28 +87,45 @@
     </span>
   {% else %}
     {% comment %} Standard pricing display {% endcomment %}
-    {% if show_sale_price_first == false and show_compare_price %}
-      <span role="group">
-        <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-        <span class="compare-at-price">{{- compare_at_price -}}</span>
-      </span>
-    {% endif %}
+    <div class="price-wrapper">
+      {% if show_sale_price_first == false and show_compare_price %}
+        <span role="group">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <span class="compare-at-price">{{- compare_at_price -}}</span>
+        </span>
+      {% endif %}
 
-    {% if show_compare_price %}
-      <span role="group">
-        <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+      {% if show_compare_price %}
+        <span role="group">
+          <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
+          <span class="price">{{ price | default: '&nbsp;' }}</span>
+        </span>
+      {% else %}
         <span class="price">{{ price | default: '&nbsp;' }}</span>
-      </span>
-    {% else %}
-      <span class="price">{{ price | default: '&nbsp;' }}</span>
+      {% endif %}
+
+      {% if show_sale_price_first == true and show_compare_price %}
+        <span role="group">
+          <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
+          <span class="compare-at-price">{{- compare_at_price -}}</span>
+        </span>
+      {% endif %}
+    </div>
+
+    {% comment %} Calculate and display discount percentage {% endcomment %}
+    {% if show_compare_price %}
+      {% assign discount_amount = selected_variant.compare_at_price | minus: selected_variant.price %}
+      {% assign discount_percentage = discount_amount | times: 100.0 | divided_by: selected_variant.compare_at_price | round %}
+      {% if discount_percentage > 0 %}
+        <div class="discount-badge">-{{ discount_percentage }}% OFF</div>
+      {% endif %}
     {% endif %}
 
-    {% if show_sale_price_first == true and show_compare_price %}
-      <span role="group">
-        <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
-        <span class="compare-at-price">{{- compare_at_price -}}</span>
-      </span>
-    {% endif %}
+    {% comment %} Tax and GST information {% endcomment %}
+    <div class="tax-gst-info">
+      <span class="inclusive">INCLUSIVE OF ALL TAXES</span>
+      <span class="gst-benefit">GST BENEFIT INCLUDED</span>
+    </div>
   {% endif %}
   {%- if selected_variant.unit_price and show_unit_price %}
     {%- liquid

@@ -116,9 +116,9 @@
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h3",
+                    "type_preset": "custom",
                     "font": "var(--font-primary--family)",
-                    "font_size": "",
+                    "font_size": "1.5rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -137,7 +137,7 @@
                 "price_tVjtKg": {
                   "type": "price",
                   "settings": {
-                    "show_sale_price_first": true,
+                    "show_sale_price_first": false,
                     "show_installments": false,
                     "show_tax_info": false,
                     "type_preset": "paragraph",
@@ -161,18 +161,6 @@
                 "text_xrnftG",
                 "price_tVjtKg"
               ]
-            },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
             },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
@@ -222,25 +210,11 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product description",
+            "product_accordion_aEtTtq": {
+              "type": "product-description-accordion",
               "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "delivery_text": "DELIVERY WITHIN 3-4 DAYS",
+                "return_policy": "Items are returnable within 7 days of delivery. All items must be returned in their original condition, with price tags attached, user manual, warranty cards, original accessories and in the original manufacturers box or packaging as delivered to you.",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -251,10 +225,9 @@
           },
           "block_order": [
             "group_icgrde",
-            "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "product_accordion_aEtTtq"
           ]
         }
       },

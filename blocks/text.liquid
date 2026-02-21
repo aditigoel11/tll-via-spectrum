@@ -1,6 +1,12 @@
 
+{% liquid
+  assign custom_class = ''
+  if block.id == 'text_xrnftG' or block.id == 'AeTFTNHowK3JMTElvZ__text_xrnftG'
+    assign custom_class = 'product_title'
+  endif
+%}
 
-{% render 'text', block: block %}
+{% render 'text', block: block, class: custom_class %}
 
 {% schema %}
 {

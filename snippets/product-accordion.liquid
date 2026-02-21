@@ -1,0 +1,66 @@
+{%- liquid
+  assign delivery_text = 'DELIVERY WITHIN 3-4 DAYS'
+  assign return_policy = 'Items are returnable within 7 days of delivery. All items must be returned in their original condition, with price tags attached, user manual, warranty cards, original accessories and in the original manufacturers box or packaging as delivered to you.'
+-%}
+
+<div class="product-accordion" id="product-accordion-details">
+  <div class="accordion-item">
+    <button class="accordion-header" aria-expanded="false" aria-controls="style-description">
+      <span>STYLE DESCRIPTION</span>
+      <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="accordion-content" id="style-description">
+      <div class="accordion-inner">
+        {{ product.description }}
+      </div>
+    </div>
+  </div>
+
+  <div class="delivery-info">
+    {{ delivery_text }}
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header" aria-expanded="false" aria-controls="shipping-returns">
+      <span>SHIPPING & RETURNS</span>
+      <svg class="accordion-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="accordion-content" id="shipping-returns">
+      <div class="accordion-inner">
+        {{ return_policy }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const accordion = document.getElementById('product-accordion-details');
+
+    if (accordion) {
+      const headers = accordion.querySelectorAll('.accordion-header');
+
+      headers.forEach(header => {
+        header.addEventListener('click', function() {
+          const isExpanded = this.getAttribute('aria-expanded') === 'true';
+          const content = this.nextElementSibling;
+          const icon = this.querySelector('.accordion-icon');
+
+          if (isExpanded) {
+            this.setAttribute('aria-expanded', 'false');
+            content.style.maxHeight = '0';
+            icon.style.transform = 'rotate(0deg)';
+          } else {
+            this.setAttribute('aria-expanded', 'true');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            icon.style.transform = 'rotate(180deg)';
+          }
+        });
+      });
+    }
+  });
+</script>

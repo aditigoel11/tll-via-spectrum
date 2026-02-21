@@ -36,6 +36,1033 @@
     {% endif %}
 
     {{ content_for_header }}
+
+    <!-- Custom Product Title Font Sizes -->
+    <style>
+      /* Override theme's selected variant background and border color variables */
+      :root {
+        --color-selected-variant-background: #ffffff !important;
+        --color-selected-variant-hover-background: #ffffff !important;
+        --color-selected-variant-border: #000000 !important;
+        --variant-picker-border-color: #d4d4d4 !important;
+        --variant-picker-selected-border-color: #000000 !important;
+      }
+
+      body {
+        --color-selected-variant-background: #ffffff !important;
+        --color-selected-variant-hover-background: #ffffff !important;
+        --color-selected-variant-border: #000000 !important;
+        --variant-picker-border-color: #d4d4d4 !important;
+        --variant-picker-selected-border-color: #000000 !important;
+      }
+      /* Force product title font sizes */
+      .text-block--text_xrnftG h1,
+      .text-block--text_xrnftG h2,
+      .text-block--text_xrnftG h3,
+      .text-block--text_xrnftG h4,
+      .text-block--text_xrnftG h5,
+      .text-block--text_xrnftG h6,
+      .text-block--text_xrnftG p,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h1,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h2,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h3,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h4,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h5,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h6,
+      .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG p,
+      .product_title h1,
+      .product_title h2,
+      .product_title h3,
+      .product_title h4,
+      .product_title h5,
+      .product_title h6,
+      .product_title p {
+        font-size: 24px !important;
+        line-height: 1.3 !important;
+      }
+
+      @media screen and (min-width: 768px) {
+        .text-block--text_xrnftG h1,
+        .text-block--text_xrnftG h2,
+        .text-block--text_xrnftG h3,
+        .text-block--text_xrnftG h4,
+        .text-block--text_xrnftG h5,
+        .text-block--text_xrnftG h6,
+        .text-block--text_xrnftG p,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h1,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h2,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h3,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h4,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h5,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h6,
+        .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG p,
+        .product_title h1,
+        .product_title h2,
+        .product_title h3,
+        .product_title h4,
+        .product_title h5,
+        .product_title h6,
+        .product_title p {
+          font-size: 32px !important;
+          line-height: 1.3 !important;
+        }
+      }
+
+      /* Custom Price Styling */
+      product-price {
+        display: block;
+      }
+
+      product-price .price-wrapper {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        /* margin-bottom: 8px; */
+      }
+
+      product-price .compare-at-price {
+        text-decoration: line-through !important;
+        color: #000000 !important;
+        font-size: 20px !important;
+        font-weight: normal !important;
+        order: 1;
+      }
+
+      product-price span.compare-at-price {
+        color: #000000 !important;
+      }
+
+      product-price .price {
+        color: #d32f2f !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        order: 2;
+      }
+
+      /* MRP Label */
+      product-price .compare-at-price::before {
+        content: "MRP" !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        margin-right: 6px !important;
+        color: #000000 !important;
+      }
+
+      /* Force black color for all MRP elements */
+      product-price [role="group"] .compare-at-price,
+      product-price .price-wrapper .compare-at-price {
+        color: #000000 !important;
+      }
+
+      /* Discount Badge */
+      .discount-badge {
+        background: #000;
+        color: #fff;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-block;
+        /* margin-top: 8px; */
+      }
+
+      /* Tax and GST text */
+      .tax-gst-info {
+        font-size: 10px;
+        color: #666;
+        margin-top: 8px;
+        line-height: 200%;
+      }
+
+      .tax-gst-info .inclusive {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .tax-gst-info .gst-benefit {
+        display: block;
+        font-weight: 600;
+        color: #333;
+      }
+      .gst-benefit {
+        font-size: 12px;
+      }
+
+      /* Layout panel flex gap for product information */
+      .group-block-content.layout-panel-flex.layout-panel-flex--column {
+        gap: 16px !important;
+      }
+
+      /* Variant Selector Styling */
+      .variant-picker,
+      variant-picker {
+        margin-top: 16px !important;
+        display: block !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        max-width: 100% !important;
+        scrollbar-width: thin !important;
+      }
+
+      /* Remove any swatch backgrounds */
+      .swatch,
+      .swatch--color,
+      .swatch--variant,
+      .variant-swatch,
+      .variant-option .swatch {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+      }
+
+      .variant-option--buttons {
+        display: inline-flex !important;
+        flex-wrap: nowrap !important;
+        gap: 0 !important;
+        min-width: min-content !important;
+      }
+
+      .variant-option--buttons label,
+      .variant-option--buttons button,
+      .variant-option label {
+        background: #fff !important;
+        border: 1px solid #d4d4d4 !important;
+        color: #000 !important;
+        width: 80px !important;
+        min-width: 80px !important;
+        height: 42px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        margin-right: -1px !important;
+        font-size: 14px !important;
+        font-weight: normal !important;
+        border-radius: 0 !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Custom scrollbar styling */
+      .variant-picker::-webkit-scrollbar,
+      variant-picker::-webkit-scrollbar {
+        height: 6px !important;
+      }
+
+      .variant-picker::-webkit-scrollbar-track,
+      variant-picker::-webkit-scrollbar-track {
+        background: #f1f1f1 !important;
+      }
+
+      .variant-picker::-webkit-scrollbar-thumb,
+      variant-picker::-webkit-scrollbar-thumb {
+        background: #888 !important;
+        border-radius: 3px !important;
+      }
+
+      .variant-picker::-webkit-scrollbar-thumb:hover,
+      variant-picker::-webkit-scrollbar-thumb:hover {
+        background: #555 !important;
+      }
+
+      .variant-option--buttons .option-button:hover {
+        background: #f5f5f5 !important;
+        border-color: #000 !important;
+        z-index: 1 !important;
+        position: relative !important;
+      }
+
+      .variant-option--buttons .option-button[aria-checked="true"],
+      .variant-option--buttons .option-button.selected,
+      .variant-option--buttons input:checked + label,
+      .variant-option--buttons label[aria-checked="true"],
+      .variant-option--buttons button[aria-checked="true"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        border: 2px solid #000 !important;
+        color: #000 !important;
+        font-weight: 500 !important;
+        z-index: 2 !important;
+        position: relative !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+        width: 80px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+        height: 42px !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      .variant-option--buttons .option-button[disabled],
+      .variant-option--buttons .option-button.disabled {
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+        text-decoration: line-through !important;
+      }
+
+      /* Remove any rounded corners on variant buttons */
+      .variant-option--buttons label,
+      .variant-option--buttons button,
+      .variant-option--buttons .button {
+        border-radius: 0 !important;
+      }
+
+      /* Ensure buttons connect seamlessly */
+      .variant-option--buttons > * {
+        flex: 0 1 auto !important;
+      }
+
+      /* Additional variant button selectors for better specificity */
+      variant-picker .variant-option--buttons label,
+      variant-picker .option-button,
+      variant-picker [role="radio"],
+      variant-picker [role="button"],
+      .variant-picker__option label,
+      .variant-picker__option button,
+      .variant-option__button-label,
+      variant-picker label,
+      variant-picker button {
+        background: #fff !important;
+        border: 1px solid #d4d4d4 !important;
+        color: #000 !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+        width: 80px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+        height: 42px !important;
+        padding: 0 !important;
+        font-size: 14px !important;
+        font-weight: normal !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        margin-right: -1px !important;
+        text-align: center !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: none !important;
+        line-height: 1 !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      variant-picker input[type="radio"]:checked + label,
+      variant-picker .variant-option--buttons input:checked + label,
+      variant-picker [aria-checked="true"],
+      variant-picker .selected,
+      .variant-option__button-label.selected,
+      .variant-option label[aria-checked="true"],
+      .variant-option button[aria-checked="true"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        border: 2px solid #000 !important;
+        border-color: #000 !important;
+        color: #000 !important;
+        font-weight: 500 !important;
+        z-index: 2 !important;
+        position: relative !important;
+        width: 80px !important;
+        height: 42px !important;
+        padding: 0 !important;
+      }
+
+      /* Override any potential black background on selected state */
+      .variant-option--buttons [aria-checked="true"],
+      .variant-option--buttons .selected,
+      variant-picker [aria-checked="true"],
+      variant-picker .selected,
+      .variant-option input:checked + label,
+      .variant-option [aria-checked="true"] label,
+      .variant-option [aria-checked="true"] button,
+      .variant-option--buttons [aria-checked="true"]::before,
+      .variant-option--buttons [aria-checked="true"]::after,
+      .swatch[aria-checked="true"],
+      .swatch.selected,
+      [role="radio"][aria-checked="true"],
+      input[type="radio"]:checked + label,
+      input[type="radio"]:checked ~ label {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+      }
+
+      /* Remove any background from pseudo elements */
+      .variant-option--buttons [aria-checked="true"]::before,
+      .variant-option--buttons [aria-checked="true"]::after,
+      .variant-option--buttons .selected::before,
+      .variant-option--buttons .selected::after {
+        background: transparent !important;
+        background-color: transparent !important;
+        content: none !important;
+      }
+
+      /* Force white background with highest specificity */
+      body .variant-option--buttons [aria-checked="true"],
+      body variant-picker [aria-checked="true"],
+      body .variant-option [aria-checked="true"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        filter: none !important;
+      }
+
+      /* Override any theme default styling */
+      .variant-option label,
+      variant-picker label {
+        transition: all 0.2s ease !important;
+      }
+
+      /* Ensure variant picker is visible */
+      variant-picker,
+      .variant-picker,
+      [data-variant-picker] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* CRITICAL: Override the pill background that creates the black background */
+      .variant-option__button-label__pill {
+        background: transparent !important;
+        background-color: transparent !important;
+        display: none !important;
+      }
+
+      /* Override the pill when selected */
+      [aria-checked="true"] .variant-option__button-label__pill,
+      .variant-option__button-label[aria-checked="true"] .variant-option__button-label__pill {
+        background: transparent !important;
+        background-color: transparent !important;
+        display: none !important;
+      }
+
+      /* FINAL OVERRIDE - Force white background and black border on selected variants */
+      label[aria-checked="true"],
+      button[aria-checked="true"],
+      [aria-checked="true"],
+      .variant-option [aria-checked="true"],
+      .variant-option--buttons [aria-checked="true"],
+      variant-picker [aria-checked="true"],
+      [role="radio"][aria-checked="true"],
+      [role="button"][aria-checked="true"],
+      input:checked + label,
+      input:checked ~ label,
+      .selected {
+        background: white !important;
+        background-color: white !important;
+        background-image: none !important;
+        border: 2px solid #000000 !important;
+        border-color: #000000 !important;
+        color: black !important;
+      }
+
+      /* Remove ALL backgrounds from variant options except white */
+      .variant-option--buttons * {
+        background-image: none !important;
+      }
+
+      /* Specific override for selected state with white background and black border */
+      .variant-option--buttons label[aria-checked="true"],
+      .variant-option--buttons button[aria-checked="true"],
+      variant-picker label[aria-checked="true"],
+      variant-picker button[aria-checked="true"],
+      .variant-option__button-label[aria-checked="true"] {
+        background: rgb(255, 255, 255) !important;
+        background-color: rgb(255, 255, 255) !important;
+        border: 2px solid rgb(0, 0, 0) !important;
+        border-width: 2px !important;
+        border-style: solid !important;
+        border-color: rgb(0, 0, 0) !important;
+        outline: 2px solid #000000 !important;
+        outline-offset: -2px !important;
+      }
+
+      /* Force black border with box-shadow as fallback */
+      .variant-option--buttons [aria-checked="true"],
+      .variant-option--buttons label[aria-checked="true"],
+      .variant-option--buttons button[aria-checked="true"],
+      .variant-option label[aria-checked="true"],
+      .variant-option button[aria-checked="true"],
+      variant-picker [aria-checked="true"] {
+        box-shadow: inset 0 0 0 2px #000000 !important;
+        border: 2px solid #000000 !important;
+        border-color: #000000 !important;
+        border-top-color: #000000 !important;
+        border-right-color: #000000 !important;
+        border-bottom-color: #000000 !important;
+        border-left-color: #000000 !important;
+      }
+
+      /* Override all border properties individually */
+      [aria-checked="true"] {
+        border-top: 2px solid #000000 !important;
+        border-right: 2px solid #000000 !important;
+        border-bottom: 2px solid #000000 !important;
+        border-left: 2px solid #000000 !important;
+      }
+
+      /* Use pseudo-element for black border if needed */
+      .variant-option--buttons [aria-checked="true"]::after {
+        content: "" !important;
+        position: absolute !important;
+        top: -2px !important;
+        left: -2px !important;
+        right: -2px !important;
+        bottom: -2px !important;
+        border: 2px solid #000000 !important;
+        pointer-events: none !important;
+        z-index: 10 !important;
+      }
+
+      /* Ensure position relative for pseudo-element */
+      .variant-option--buttons [aria-checked="true"] {
+        position: relative !important;
+      }
+
+      /* Sticky Buy Buttons - Mobile Only */
+      @media screen and (max-width: 768px) {
+        /* Create sticky container */
+        .buy-buttons-block {
+          position: fixed !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          width: 100% !important;
+          background: #ffffff !important;
+          z-index: 999 !important;
+          padding: 12px 16px !important;
+          box-shadow: 0 -2px 10px rgba(0,0,0,0.1) !important;
+          border-top: 1px solid #e5e5e5 !important;
+        }
+
+        /* Style the buttons container */
+        .product-form-buttons {
+          display: flex !important;
+          gap: 12px !important;
+          align-items: center !important;
+          width: 100% !important;
+        }
+
+        /* Add to Cart button - white with black border */
+        .product-form-buttons .button[name="add"],
+        .product-form-buttons button[type="submit"]:not(.shopify-payment-button__button) {
+          flex: 1 !important;
+          background: #ffffff !important;
+          color: #000000 !important;
+          border: 2px solid #000000 !important;
+          padding: 14px 20px !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          border-radius: 0 !important;
+          height: 48px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
+        }
+
+        /* Buy it Now button - black background */
+        .shopify-payment-button,
+        .product-form-buttons .shopify-payment-button {
+          flex: 1 !important;
+        }
+
+        .shopify-payment-button__button,
+        .product-form-buttons .shopify-payment-button__button {
+          background: #000000 !important;
+          color: #ffffff !important;
+          border: 2px solid #000000 !important;
+          padding: 14px 20px !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          border-radius: 0 !important;
+          height: 48px !important;
+          width: 100% !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
+        }
+
+        /* Wishlist/Heart button */
+        .product-form-buttons .button--wishlist,
+        .product-form-buttons .wishlist-button {
+          width: 48px !important;
+          min-width: 48px !important;
+          height: 48px !important;
+          padding: 0 !important;
+          background: #ffffff !important;
+          border: 2px solid #000000 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          flex-shrink: 0 !important;
+        }
+
+        /* Heart icon */
+        .product-form-buttons .button--wishlist::after,
+        .product-form-buttons .wishlist-button::after {
+          content: "♡" !important;
+          font-size: 20px !important;
+          color: #000000 !important;
+        }
+
+        /* Hover effects */
+        .product-form-buttons .button[name="add"]:hover {
+          background: #f5f5f5 !important;
+        }
+
+        .shopify-payment-button__button:hover {
+          background: #333333 !important;
+        }
+
+        /* Add padding to bottom of page to prevent content overlap */
+        body {
+          padding-bottom: 80px !important;
+        }
+
+        /* Remove stacking on mobile for side-by-side layout */
+        .product-form-buttons--stacked {
+          flex-direction: row !important;
+        }
+
+        /* Hide quantity selector from sticky bar if exists */
+        .buy-buttons-block .quantity-selector {
+          display: none !important;
+        }
+      }
+
+      /* Desktop - keep buttons in normal flow */
+      @media screen and (min-width: 769px) {
+        .buy-buttons-block {
+          position: relative !important;
+        }
+      }
+      /* Product Accordion Styles */
+      .product-accordion {
+        margin-top: 24px !important;
+        padding-top: 0 !important;
+      }
+
+      .short-description {
+        padding: 0 0 20px 0 !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        color: #333333 !important;
+        font-family: var(--font-body--family) !important;
+      }
+
+      .short-description p {
+        margin: 0 0 8px 0 !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+      }
+
+      .short-description p:last-child {
+        margin-bottom: 0 !important;
+      }
+
+      .accordion-item {
+        /* border-bottom: 1px solid #e5e5e5 !important; */
+      }
+
+      .accordion-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 16px 0 !important;
+        background: none !important;
+        border: none !important;
+        text-align: left !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        font-family: var(--font-body--family) !important;
+        letter-spacing: 0.5px !important;
+        color: #000000 !important;
+        cursor: pointer !important;
+        transition: color 0.2s ease !important;
+      }
+
+      .accordion-header:hover {
+        color: #333333 !important;
+      }
+
+      .accordion-icon {
+        width: 16px !important;
+        height: 16px !important;
+        transition: transform 0.3s ease !important;
+        flex-shrink: 0 !important;
+        color: #666666 !important;
+      }
+
+      .accordion-content {
+        max-height: 0 !important;
+        overflow: hidden !important;
+        transition: max-height 0.3s ease-out !important;
+      }
+
+      .accordion-inner {
+        padding: 0 0 16px 0 !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        color: #333333 !important;
+        font-family: var(--font-body--family) !important;
+      }
+
+      .accordion-inner p {
+        margin: 0 0 12px 0 !important;
+      }
+
+      .accordion-inner p:last-child {
+        margin-bottom: 0 !important;
+      }
+
+      .accordion-inner ul,
+      .accordion-inner ol {
+        margin: 0 0 12px 0 !important;
+        padding-left: 20px !important;
+      }
+
+      .accordion-inner li {
+        margin: 4px 0 !important;
+      }
+
+      .delivery-info {
+        padding: 16px 0 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        color: #666666 !important;
+        letter-spacing: 0.3px !important;
+        font-family: var(--font-body--family) !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* Open state for accordion */
+      .accordion-header[aria-expanded="true"] + .accordion-content {
+        max-height: none !important;
+      }
+
+      /* Product Card Styling */
+      .product-card {
+        position: relative !important;
+      }
+
+      .product-card .product-card__content {
+        position: relative !important;
+      }
+
+      /* Product card link should not cover the plus button */
+      .product-card .product-card__link {
+        z-index: 1 !important;
+      }
+
+      /* Ensure product card can contain the popup */
+      .product-card__content .card-gallery {
+        position: relative !important;
+      }
+
+      /* Remove this rule that was hiding content - we'll handle it differently */
+
+      /* NEW ARRIVAL Badge */
+      .product-card-new-arrival {
+        position: absolute !important;
+        bottom: 60px !important;
+        left: 0 !important;
+        background: #000000 !important;
+        color: #ffffff !important;
+        padding: 6px 12px !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        z-index: 2 !important;
+        font-family: var(--font-body--family) !important;
+      }
+
+      /* Discount Badge on Product Cards */
+      .product-card-discount-badge {
+        position: absolute !important;
+        bottom: 20px !important;
+        left: 0 !important;
+        background: #000000 !important;
+        color: #ffffff !important;
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        z-index: 2 !important;
+        font-family: var(--font-body--family) !important;
+      }
+
+      /* Product Card Title */
+      .product-card .product-title h3,
+      .product-card h3,
+      [data-block-type="product-title"] {
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        margin: 8px 0 !important;
+        line-height: 1.4 !important;
+        color: #000000 !important;
+      }
+
+      /* Product Card Price Styling */
+      .product-card .price-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
+      }
+
+      .product-card .compare-at-price {
+        font-size: 14px !important;
+        color: #666666 !important;
+        text-decoration: line-through !important;
+      }
+
+      .product-card .compare-at-price::before {
+        content: "MRP " !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        margin-right: 2px !important;
+      }
+
+      .product-card .price {
+        font-size: 14px !important;
+        color: #d32f2f !important;
+        font-weight: 600 !important;
+      }
+
+      /* Tax/GST info in product cards */
+      .product-card .tax-gst-info {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+        margin-top: 6px !important;
+        padding-top: 0 !important;
+      }
+
+      .product-card .tax-gst-info .inclusive {
+        font-size: 10px !important;
+        color: #666666 !important;
+        letter-spacing: 0.3px !important;
+        text-transform: uppercase !important;
+        font-weight: 500 !important;
+      }
+
+      .product-card .tax-gst-info .gst-benefit {
+        font-size: 10px !important;
+        color: #666666 !important;
+        letter-spacing: 0.3px !important;
+        text-transform: uppercase !important;
+        font-weight: 500 !important;
+      }
+
+      /* Plus icon for quick add */
+      .product-card-quick-add,
+      button.product-card-quick-add {
+        position: absolute !important;
+        bottom: 12px !important;
+        right: 12px !important;
+        width: 36px !important;
+        height: 36px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        z-index: 5 !important;
+        transition: all 0.2s ease !important;
+        pointer-events: auto !important;
+        padding: 0 !important;
+        outline: none !important;
+      }
+
+      .product-card-quick-add:hover {
+        background: #ffffff !important;
+        transform: scale(1.1) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+      }
+
+      .product-card-quick-add .plus-icon {
+        font-size: 24px !important;
+        color: #000000 !important;
+        font-weight: 300 !important;
+        line-height: 1 !important;
+      }
+
+      /* Variant Selector Popup Styles */
+      .product-card__content {
+        position: relative !important;
+      }
+
+      .variant-selector-popup {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 80% !important;
+        z-index: 100 !important;
+        background: #ffffff !important;
+        border: none !important;
+        overflow: hidden !important;
+        display: none;
+        box-shadow: 0 0 0 1px #e0e0e0 inset !important;
+      }
+
+      .variant-selector-popup[style*="block"] {
+        display: block !important;
+      }
+
+      .variant-popup-content {
+        position: relative !important;
+        background: #ffffff !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow-y: auto !important;
+        padding: 5px !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      .variant-popup-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding-bottom: 6px !important;
+        flex-shrink: 0 !important;
+      }
+
+      .variant-popup-header h3 {
+        font-size: 12px !important;
+        letter-spacing: 0.5px !important;
+        margin: 0 !important;
+        font-family: var(--font-body--family) !important;
+      }
+
+      .variant-popup-close {
+        background: none !important;
+        border: none !important;
+        padding: 4px !important;
+        cursor: pointer !important;
+        color: #666666 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .variant-popup-close:hover {
+        color: #000000 !important;
+      }
+
+      .variant-popup-options {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        margin-bottom: 12px !important;
+        flex-grow: 1 !important;
+        overflow-y: auto !important;
+      }
+
+      .variant-popup-option {
+        width: 100% !important;
+        padding: 4px 12px !important;
+        text-align: center !important;
+        background: #ffffff !important;
+        border: none !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        font-family: var(--font-body--family) !important;
+        color: #000000 !important;
+        letter-spacing: 0.3px !important;
+      }
+
+      .variant-popup-option:first-child {
+
+      }
+
+      .variant-popup-option:hover:not(:disabled) {
+        background: #f8f8f8 !important;
+      }
+
+      .variant-popup-option.selected {
+        background: #000000 !important;
+        color: #ffffff !important;
+      }
+
+      .variant-popup-option--unavailable,
+      .variant-popup-option:disabled {
+        color: #cccccc !important;
+        cursor: not-allowed !important;
+        text-decoration: line-through !important;
+      }
+
+      .variant-popup-size-guide {
+        display: none !important;
+        text-align: center !important;
+        text-decoration: underline !important;
+        color: #000000 !important;
+        font-size: 12px !important;
+        margin: 12px 0 !important;
+        font-family: var(--font-body--family) !important;
+        letter-spacing: 0.3px !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
+        padding: 8px 0 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+      }
+
+
+      /* Hide default quick-add button */
+      .product-card .quick-add {
+        display: none !important;
+      }
+
+      /* Hide default discount badge on PDP */
+      .product-information .discount-badge {
+        display: inline-flex !important;
+      }
+
+      /* Hide discount badge in product cards - using the snippet version */
+      .product-card .discount-badge {
+        display: none !important;
+      }
+
+      /* Mobile adjustments */
+      @media screen and (max-width: 768px) {
+        .product-accordion {
+          margin-top: 20px !important;
+        }
+
+        .accordion-header {
+          font-size: 13px !important;
+          padding: 14px 0 !important;
+        }
+
+        .accordion-inner {
+          font-size: 13px !important;
+        }
+
+        .delivery-info {
+          font-size: 12px !important;
+          padding: 14px 0 !important;
+        }
+      }
+    </style>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">

@@ -26,9 +26,37 @@
         </div>
       {%- endif -%}
     </div>
-    {%  if settings.quick_add or settings.mobile_quick_add %}
-      {% render 'quick-add', product: product, section_id: section.id %}
-    {% endif %}
+
+    {%- comment -%} Discount percentage badge {%- endcomment -%}
+    {%- if product.compare_at_price > product.price -%}
+      {%- assign discount_amount = product.compare_at_price | minus: product.price -%}
+      {%- assign discount_percentage = discount_amount | times: 100.0 | divided_by: product.compare_at_price | round -%}
+      {%- if discount_percentage > 0 -%}
+        <div class="product-card-discount-badge">
+          -{{ discount_percentage }}% OFF
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%} NEW ARRIVAL badge {%- endcomment -%}
+    {%- assign days_since_published = 'now' | date: '%s' | minus: product.published_at | date: '%s' | divided_by: 86400 -%}
+    {%- if days_since_published <= 30 -%}
+      <div class="product-card-new-arrival">
+        NEW ARRIVAL
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Custom Quick Add Plus Icon {%- endcomment -%}
+    <button type="button"
+            class="product-card-quick-add"
+            data-product-id="{{ product.id }}"
+            onclick="event.stopPropagation(); event.preventDefault(); var p = document.getElementById('variant-popup-{{ product.id }}'); if(p) { p.style.display='block'; console.log('Found and opened popup'); } else { console.error('Popup not found for ID: variant-popup-{{ product.id }}'); } return false;"
+            aria-label="Quick add">
+      <span class="plus-icon">+</span>
+    </button>
+
+    {%- comment -%} Variant selector popup directly in gallery {%- endcomment -%}
+    {% render 'variant-selector-popup', product: product %}
   {% endunless %}
 {% endcapture %}
 

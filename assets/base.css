@@ -4944,3 +4944,139 @@ product-recommendations:has([data-has-recommendations='false']) {
     translate: 0px var(--atc-destination, 0px);
   }
 }
+
+/* Custom font size for product title - comprehensive overrides */
+.product_title,
+.product_title *,
+.text-block--text_xrnftG,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG {
+  --font-size: 24px !important;
+  font-size: 24px !important;
+}
+
+.product_title h1,
+.product_title h2,
+.product_title h3,
+.product_title h4,
+.product_title h5,
+.product_title h6,
+.product_title p,
+.text-block--text_xrnftG h1,
+.text-block--text_xrnftG h2,
+.text-block--text_xrnftG h3,
+.text-block--text_xrnftG h4,
+.text-block--text_xrnftG h5,
+.text-block--text_xrnftG h6,
+.text-block--text_xrnftG p,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h1,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h2,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h3,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h4,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h5,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h6,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG p {
+  font-size: 24px !important;
+}
+
+@media screen and (min-width: 768px) {
+  .product_title,
+  .product_title *,
+  .text-block--text_xrnftG,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG {
+    --font-size: 32px !important;
+    font-size: 32px !important;
+  }
+
+  .product_title h1,
+  .product_title h2,
+  .product_title h3,
+  .product_title h4,
+  .product_title h5,
+  .product_title h6,
+  .product_title p,
+  .text-block--text_xrnftG h1,
+  .text-block--text_xrnftG h2,
+  .text-block--text_xrnftG h3,
+  .text-block--text_xrnftG h4,
+  .text-block--text_xrnftG h5,
+  .text-block--text_xrnftG h6,
+  .text-block--text_xrnftG p,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h1,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h2,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h3,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h4,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h5,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG h6,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG p {
+    font-size: 32px !important;
+  }
+}
+
+/* Force override any inline styles or CSS variables */
+.text-block--text_xrnftG[style*="--font-size"],
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG[style*="--font-size"] {
+  --font-size: 24px !important;
+}
+
+.text-block--text_xrnftG.custom-typography,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG.custom-typography {
+  --font-size: 24px !important;
+}
+
+.text-block--text_xrnftG.custom-typography *,
+.text-block--AeTFTNHowK3JMTElvZ__text_xrnftG.custom-typography * {
+  font-size: var(--font-size) !important;
+}
+
+@media screen and (min-width: 768px) {
+  .text-block--text_xrnftG[style*="--font-size"],
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG[style*="--font-size"] {
+    --font-size: 32px !important;
+  }
+
+  .text-block--text_xrnftG.custom-typography,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG.custom-typography {
+    --font-size: 32px !important;
+  }
+
+  .text-block--text_xrnftG.custom-typography *,
+  .text-block--AeTFTNHowK3JMTElvZ__text_xrnftG.custom-typography * {
+    font-size: var(--font-size) !important;
+  }
+}
+
+/* Ultimate override - targeting all possible scenarios */
+div[class*="text-block--text_xrnftG"] *,
+div[class*="text-block--AeTFTNHowK3JMTElvZ__text_xrnftG"] *,
+.spacing-style.text-block.h3 h1,
+.spacing-style.text-block.custom-typography h1 {
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+}
+
+@media screen and (min-width: 768px) {
+  div[class*="text-block--text_xrnftG"] *,
+  div[class*="text-block--AeTFTNHowK3JMTElvZ__text_xrnftG"] *,
+  .spacing-style.text-block.h3 h1,
+  .spacing-style.text-block.custom-typography h1 {
+    font-size: 32px !important;
+    line-height: 1.2 !important;
+  }
+}
+
+/* Override any inline font-size style */
+[style*="font-size"].text-block--text_xrnftG *,
+[style*="font-size"].text-block--AeTFTNHowK3JMTElvZ__text_xrnftG *,
+[style*="--font-size"].text-block--text_xrnftG *,
+[style*="--font-size"].text-block--AeTFTNHowK3JMTElvZ__text_xrnftG * {
+  font-size: 24px !important;
+}
+
+@media screen and (min-width: 768px) {
+  [style*="font-size"].text-block--text_xrnftG *,
+  [style*="font-size"].text-block--AeTFTNHowK3JMTElvZ__text_xrnftG *,
+  [style*="--font-size"].text-block--text_xrnftG *,
+  [style*="--font-size"].text-block--AeTFTNHowK3JMTElvZ__text_xrnftG * {
+    font-size: 32px !important;
+  }
+}
