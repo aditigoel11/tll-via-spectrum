@@ -129,6 +129,24 @@
                     %}
                   </div>
                 </div>
+              {% assign img_a_key = 'mega_image_' | append: forloop.index | append: 'a' %}
+              {% assign img_b_key = 'mega_image_' | append: forloop.index | append: 'b' %}
+              {% assign mega_img_a = block_settings[img_a_key] %}
+              {% assign mega_img_b = block_settings[img_b_key] %}
+              {% if mega_img_a != blank or mega_img_b != blank %}
+                <div class="mega-menu-custom-images">
+                  {% if mega_img_a != blank %}
+                    <div class="mega-menu-custom-images__item">
+                      {{ mega_img_a | image_url: width: 800 | image_tag: loading: 'lazy' }}
+                    </div>
+                  {% endif %}
+                  {% if mega_img_b != blank %}
+                    <div class="mega-menu-custom-images__item">
+                      {{ mega_img_b | image_url: width: 800 | image_tag: loading: 'lazy' }}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
               </div>
             </div>
           {%- endif -%}
@@ -666,6 +684,43 @@
     /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
   }
+
+  /* Consistent mega menu dropdown height */
+  .menu-list__submenu-inner {
+    min-height: 50vh;
+  }
+
+  /* Custom mega menu images - flex layout */
+  .menu-list__submenu-inner:has(.mega-menu-custom-images) {
+    flex-wrap: nowrap;
+  }
+
+  .menu-list__submenu-inner:has(.mega-menu-custom-images) > .mega-menu {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mega-menu-custom-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-self: stretch;
+    margin-block: calc(-1 * var(--submenu-padding-block-start)) calc(-1 * var(--submenu-padding-block-end));
+    margin-inline-end: calc(-1 * var(--section-padding-inline));
+    flex-shrink: 0;
+    width: 35%;
+  }
+
+  .mega-menu-custom-images__item {
+    overflow: hidden;
+  }
+
+  .mega-menu-custom-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -858,6 +913,54 @@
       "unit": "px",
       "default": 0,
       "visible_if": "{{ block.settings.menu_style != 'text' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mega menu images"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add editorial images to the right side of each mega menu dropdown. Numbers correspond to menu item position (1st, 2nd, 3rd, 4th)."
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_1a",
+      "label": "Menu item 1 - Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_1b",
+      "label": "Menu item 1 - Right image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_2a",
+      "label": "Menu item 2 - Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_2b",
+      "label": "Menu item 2 - Right image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_3a",
+      "label": "Menu item 3 - Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_3b",
+      "label": "Menu item 3 - Right image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_4a",
+      "label": "Menu item 4 - Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image_4b",
+      "label": "Menu item 4 - Right image"
     },
     {
       "type": "header",
