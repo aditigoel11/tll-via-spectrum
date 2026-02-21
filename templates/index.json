@@ -199,10 +199,51 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "mobile_banners": {
+      "type": "mobile-banners",
+      "blocks": {
+        "banner_1": {
+          "type": "banner",
+          "settings": {
+            "media_type": "image",
+            "heading": "NEW ARRIVALS",
+            "subheading": "",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/all"
+          }
+        },
+        "banner_2": {
+          "type": "banner",
+          "settings": {
+            "media_type": "image",
+            "heading": "ICONIC SHIRTS",
+            "subheading": "",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/all"
+          }
+        },
+        "banner_3": {
+          "type": "banner",
+          "settings": {
+            "media_type": "image",
+            "heading": "DESK TO DINNER",
+            "subheading": "",
+            "button_label": "SHOP NOW",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "banner_1",
+        "banner_2",
+        "banner_3"
+      ]
     }
   },
   "order": [
     "hero_jVaWmY",
-    "hero_XXyx3B"
+    "hero_XXyx3B",
+    "mobile_banners"
   ]
 }
