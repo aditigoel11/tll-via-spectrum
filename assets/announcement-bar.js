@@ -39,11 +39,13 @@ export class AnnouncementBar extends Component {
 
   /**
    * Starts automatic slide playback.
+   * Always clears any existing interval first to prevent stacking.
    * @param {number} [interval] - The time interval in seconds between slides.
    */
   play(interval = this.autoplayInterval) {
     if (!this.autoplay) return;
 
+    this.suspend();
     this.paused = false;
 
     this.#interval = setInterval(() => {
@@ -54,7 +56,7 @@ export class AnnouncementBar extends Component {
   }
 
   /**
-   * Pauses automatic slide playback.
+   * Pauses automatic slide playback (user-initiated, won't auto-resume).
    */
   pause() {
     this.paused = true;
@@ -70,7 +72,7 @@ export class AnnouncementBar extends Component {
   }
 
   /**
-   * Suspends automatic slide playback.
+   * Suspends automatic slide playback (clears interval).
    */
   suspend() {
     clearInterval(this.#interval);
@@ -78,12 +80,11 @@ export class AnnouncementBar extends Component {
   }
 
   /**
-   * Resumes automatic slide playback if autoplay is enabled.
+   * Resumes automatic slide playback if not manually paused.
    */
   resume() {
     if (!this.autoplay || this.paused) return;
 
-    this.pause();
     this.play();
   }
 
@@ -128,9 +129,17 @@ export class AnnouncementBar extends Component {
   }
 
   /**
-   * Pause the slideshow when the page is hidden.
+   * Suspend the slideshow when the page is hidden, restart when visible.
+   * Uses suspend/play instead of pause/resume to avoid setting the paused flag.
    */
-  #handleVisibilityChange = () => (document.hidden ? this.pause() : this.resume());
+  #handleVisibilityChange = () => {
+    if (document.hidden) {
+      this.suspend();
+    } else if (!this.paused) {
+      this.suspend();
+      this.play();
+    }
+  };
 }
 
 if (!customElements.get('announcement-bar-component')) {

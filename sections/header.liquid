@@ -313,7 +313,7 @@
     {% if section.settings.actions_display_style == 'text' %}
       --header-actions-font-size: {{ section.settings.actions_font_size | default: '1rem' }};
       --header-actions-font-family: var(--font-{{ section.settings.actions_font | default: 'heading' }}--family);
-      --header-actions-font-weight: var(--font-{{ section.settings.actions_font | default: 'heading' }}--weight);
+      --header-actions-font-weight: 700;
       --header-actions-text-case: {{ section.settings.actions_text_case | default: 'none' }};
     {% endif %}
   "
@@ -489,7 +489,8 @@
       --color-primary-button-text: inherit;
     }
 
-    /* Multiple selectors for performance: each simple :has() check is faster than one complex selector with multiple conditions */
+    /* Turn header white on any hover */
+    &:hover,
     &:has(.mega-menu__list:hover),
     &:has(.menu-list__link:is(:hover, [aria-expanded='true'])),
     &:has(.menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'])) {
@@ -895,6 +896,12 @@
 
   .header.header--compact {
     --header-padding: var(--padding-2xs);
+  }
+
+  /* Reduce header height when transparent header turns opaque */
+  .header[transparent]:hover,
+  .header[transparent][data-sticky-state='active'] {
+    --header-padding: var(--padding-xs);
   }
 
   .header__columns {
