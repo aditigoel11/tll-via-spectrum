@@ -53,6 +53,8 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--footer-gap);
+    text-transform: uppercase;
+    font-weight: 700;
   }
 
   @media screen and (min-width: 750px) and (max-width: 989px) {
@@ -73,6 +75,14 @@
   @media screen and (min-width: 990px) {
     .footer-content {
       grid-template-columns: repeat(var(--grid-columns), 1fr);
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    /* 2 columns: newsletter left, menus pushed to far right */
+    .footer-content[style*='--grid-columns: 2'] {
+      grid-template-columns: 1fr 1.5fr;
+      gap: 0;
     }
 
     /* Single item centered */
@@ -82,6 +92,145 @@
 
     .footer-content--isolated-grid-item-desktop > :last-child {
       grid-column: 1 / -1;
+    }
+
+    /* Newsletter group (left column) padding */
+    .footer-content > :first-child {
+      padding: 25px 0 16px 0;
+    }
+
+    /* Menus group: push INFORMATION / ASSISTANCE / FOLLOW US to the far right */
+    .footer-content > :nth-child(2) .group-block-content.layout-panel-flex--row {
+      justify-content: flex-end;
+      gap: 80px;
+    }
+
+    /* Menu headings - 700 bold on desktop */
+    .footer-content .menu__heading,
+    .footer-content .menu__heading.paragraph,
+    .footer-content .menu__heading span {
+      font-weight: 700 !important;
+      font-size: 16px;
+    }
+
+    /* Menu links - 400 weight, 16px */
+    .footer-content .menu__item,
+    .footer-content .menu__item a {
+      font-weight: 400;
+      font-size: 16px;
+    }
+
+    /* Newsletter text - 400 weight, 16px */
+    .footer-content .text-block,
+    .footer-content .text-block p,
+    .footer-content .text-block strong {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    /* Email signup input - 16px */
+    .footer-content .email-signup__input {
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  /* Footer menus: shrink to content so flex alignment works */
+  .footer-content .group-block-content .menu {
+    width: auto;
+    flex: 0 0 auto;
+  }
+
+  /* Footer menu link styling */
+  .footer-content .menu__item a {
+    text-decoration: none;
+  }
+
+  .footer-content .menu__item a:hover {
+    text-decoration: underline;
+  }
+
+  /* ========================================
+     MOBILE FOOTER OVERRIDES (mweb only)
+     ======================================== */
+  @media screen and (max-width: 749px) {
+    /* Reduce main footer grid gap between newsletter and menus */
+    .footer-content {
+      gap: 24px;
+    }
+
+    /* Newsletter text blocks - 10px font */
+    .footer-content .text-block,
+    .footer-content .text-block p,
+    .footer-content .text-block strong {
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    /* Email signup input - 10px font, compact padding */
+    .footer-content .email-signup__input {
+      font-size: 10px;
+      padding: 10px 14px;
+    }
+
+    .footer-content .email-signup__input::placeholder {
+      font-size: 10px;
+    }
+
+    /* Email signup arrow button - compact */
+    .footer-content .email-signup__button--arrow:not(.email-signup__button--integrated) {
+      width: 40px;
+      height: 40px;
+    }
+
+    .footer-content .email-signup__button--arrow.email-signup__button--integrated {
+      width: 36px;
+      height: 36px;
+    }
+
+    /* Menus should take full width on mobile - needs matching specificity to override desktop rule */
+    .footer-content .group-block-content .menu {
+      width: 100%;
+      flex: 1 1 100%;
+    }
+
+    /* Summary (accordion heading) must be full width flex so + icon goes to far right */
+    .footer-content .menu--accordion .menu__heading {
+      display: flex;
+      width: 100%;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Accordion heading span: flex row, heading left + icon at far right end */
+    .footer-content .menu--accordion .menu__heading__accordion {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Menu accordion toggle icon sizing */
+    .footer-content .menu__heading__toggle {
+      flex-shrink: 0;
+      margin-inline-start: auto;
+    }
+
+    /* Menu items - 10px font */
+    .footer-content .menu__item,
+    .footer-content .menu__item a {
+      font-size: 10px;
+    }
+
+    /* Reduce gap between menu accordion blocks on mobile */
+    .footer-content .group-block-content.layout-panel-flex--row.mobile-column {
+      gap: 0;
+    }
+
+    /* Payment icons compact on mobile */
+    .footer-content .payment-icons__item .icon {
+      height: 20px;
+      width: auto;
     }
   }
 {% endstylesheet %}

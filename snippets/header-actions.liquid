@@ -49,6 +49,16 @@
   {% endif %}
   {{- block.shopify_attributes -}}
 >
+  {% if display_style == 'text' %}
+    <a
+      href="/pages/store-locator"
+      class="header-actions__action header-actions__text-style mobile:hidden"
+      style="text-decoration: none;"
+    >
+      Stores
+    </a>
+  {% endif %}
+
   {% if shop.customer_accounts_enabled %}
     {% liquid
       assign account_actions_style = ''
@@ -65,7 +75,7 @@
         endcase
         assign font_family = font_obj.family | append: ', ' | append: font_obj.fallback_families
         assign font_family_safe = font_family | replace: '"', "'"
-        assign account_actions_style = '--header-actions-font-family: ' | append: font_family_safe | append: '; --header-actions-font-weight: ' | append: font_obj.weight | append: ';'
+        assign account_actions_style = '--header-actions-font-family: ' | append: font_family_safe | append: '; --header-actions-font-weight: 700;'
       endif
     %}
     <div
@@ -509,6 +519,7 @@
 
   header-actions {
     display: flex;
+    align-items: center;
 
     @media screen and (max-width: 749px) {
       justify-self: flex-end;

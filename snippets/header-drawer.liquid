@@ -750,6 +750,49 @@
           </ul>
         </div>
       {% endif %}
+
+      {%- comment -%} Mobile drawer footer navigation {%- endcomment -%}
+      <div class="menu-drawer__footer-nav">
+        <div class="menu-drawer__footer-nav-account">
+          <a href="/account" class="menu-drawer__footer-nav-link">
+            <span>MY ACCOUNT</span>
+            <span class="svg-wrapper icon-caret icon-caret--forward">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </a>
+        </div>
+        <ul class="menu-drawer__footer-nav-list">
+          <li>
+            <a href="https://thelabellife.clickpost.ai" class="menu-drawer__footer-nav-link" target="_blank" rel="noopener">
+              <span>ORDER TRACKING</span>
+              <span class="svg-wrapper icon-caret icon-caret--forward">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="/pages/faqs" class="menu-drawer__footer-nav-link">
+              <span>FAQ</span>
+              <span class="svg-wrapper icon-caret icon-caret--forward">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="/pages/store-address" class="menu-drawer__footer-nav-link">
+              <span>VISIT OUR STORE</span>
+              <span class="svg-wrapper icon-caret icon-caret--forward">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="/pages/contact-us" class="menu-drawer__footer-nav-link menu-drawer__footer-nav-link--no-chevron">
+              <span>CONTACT US</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div
       class="menu-drawer__backdrop"
@@ -1291,6 +1334,98 @@
       opacity: 0;
       transform: translateX(-1rem);
     }
+  }
+
+  /* ================================
+   * Mobile drawer customizations
+   * ================================ */
+
+  /* Position drawer below header so header + announcement bar remain visible */
+  @media screen and (max-width: 749px) {
+    .menu-drawer {
+      top: var(--drawer-top-offset, var(--header-height, 60px));
+      height: calc(100dvh - var(--drawer-top-offset, var(--header-height, 60px)));
+      box-shadow: none;
+    }
+
+    .menu-drawer__backdrop {
+      top: var(--drawer-top-offset, var(--header-height, 60px));
+    }
+
+    /* Hide drawer's own close button on mobile - the header X handles closing */
+    .menu-drawer .menu-drawer__close-button {
+      display: none;
+    }
+
+    /* Font size overrides: headings 12px/700, sub-content 10px/400 */
+    .menu-drawer .menu-drawer__menu-item--mainlist {
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .menu-drawer .menu-drawer__menu-item--child,
+    .menu-drawer .menu-drawer__menu-item--parent {
+      font-size: 0.625rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }
+
+  /* ================================
+   * Footer navigation
+   * ================================ */
+  .menu-drawer__footer-nav {
+    margin-top: auto;
+    background-color: rgb(var(--color-foreground-rgb) / 0.04);
+    padding: var(--padding-lg) var(--padding-xl);
+  }
+
+  .menu-drawer__footer-nav-account {
+    margin-bottom: var(--padding-xs);
+  }
+
+  .menu-drawer__footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu-drawer__footer-nav-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding-sm) 0;
+    text-decoration: none;
+    color: var(--color-foreground);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .menu-drawer__footer-nav-link:hover {
+    color: var(--color-foreground);
+  }
+
+  .menu-drawer__footer-nav-link .svg-wrapper {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .menu-drawer__footer-nav-link .svg-wrapper svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .menu-drawer__footer-nav-link--no-chevron {
+    padding-top: var(--padding-md);
   }
 
   /* Drawer Localization Styles */

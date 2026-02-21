@@ -238,7 +238,7 @@
       },
       "scheme-5": {
         "settings": {
-          "background": "#333333",
+          "background": "#1a1a1a",
           "foreground_heading": "#ffffff",
           "foreground": "#ffffff",
           "primary": "#ffffff",
@@ -257,7 +257,7 @@
           "secondary_button_hover_background": "#ffffff0a",
           "secondary_button_hover_text": "#ffffffed",
           "secondary_button_hover_border": "#ffffffb0",
-          "input_background": "#333333",
+          "input_background": "#1a1a1a",
           "input_text_color": "#ffffffed",
           "input_border_color": "#ffffffb0",
           "input_hover_background": "#ffffff0a",

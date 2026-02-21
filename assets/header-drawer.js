@@ -74,6 +74,16 @@ class HeaderDrawer extends Component {
 
     summary.setAttribute('aria-expanded', 'true');
 
+    // On mobile, position the drawer below the header
+    if (window.innerWidth < 750 && details === this.refs.details) {
+      const headerComponent = this.closest('header-component');
+      if (headerComponent) {
+        const rect = headerComponent.getBoundingClientRect();
+        const topOffset = Math.max(0, rect.bottom);
+        this.refs.details.style.setProperty('--drawer-top-offset', `${topOffset}px`);
+      }
+    }
+
     this.preventInitialAccordionAnimations(details);
     requestAnimationFrame(() => {
       details.classList.add('menu-open');
