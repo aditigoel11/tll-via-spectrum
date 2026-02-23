@@ -30,7 +30,7 @@
             "constrain_to_viewport": true,
             "media_fit": "cover",
             "media_radius": 0,
-            "extend_media": false,
+            "extend_media": true,
             "zoom": true,
             "video_loop": false,
             "hide_variants": true,
@@ -52,7 +52,7 @@
             "height": "fit",
             "details_position": "flex-start",
             "gap": 28,
-            "sticky_details_desktop": true,
+            "sticky_details_desktop": false,
             "inherit_color_scheme": true,
             "color_scheme": "scheme-1",
             "background_media": "none",
@@ -79,7 +79,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "gap": 4,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -149,7 +149,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "color": "var(--color-foreground)",
-                    "padding-block-start": 4,
+                    "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -226,8 +226,8 @@
           "block_order": [
             "group_icgrde",
             "variant_picker_R3rGDr",
-            "product_accordion_aEtTtq",
-            "buy_buttons_eYQEYi"
+            "buy_buttons_eYQEYi",
+            "product_accordion_aEtTtq"
           ]
         }
       },
@@ -368,12 +368,12 @@
       "settings": {
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
+        "max_products": 10,
+        "columns": 3,
+        "mobile_columns": "1",
+        "columns_gap": 16,
         "rows_gap": 24,
         "icons_style": "arrow",
         "icons_shape": "none",

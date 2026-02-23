@@ -52,7 +52,7 @@
       {{ styles }}
     "
   >
-    <div class="section-resource-list__content">
+    <div class="section-resource-list__content product-recommendations__header-wrapper">
       {% content_for 'blocks' %}
     </div>
 
@@ -167,6 +167,135 @@
     {%- endif -%}
   </div>
 </product-recommendations>
+
+{% stylesheet %}
+  /* Heading wrapper needs relative positioning for the nav */
+  .product-recommendations .product-recommendations__header-wrapper {
+    position: relative;
+  }
+
+  /* Nav arrows in the top-right of the heading row */
+  .product-recommendations__nav {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2;
+  }
+
+  .product-recommendations__nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--color-foreground);
+    transition: opacity 0.2s ease;
+  }
+
+  .product-recommendations__nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .product-recommendations__nav-btn .svg-wrapper,
+  .product-recommendations__nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Hide the built-in carousel overlay arrows */
+  .product-recommendations .resource-list__carousel slideshow-container > slideshow-arrows {
+    display: none !important;
+  }
+{% endstylesheet %}
+
+<script>
+  (function() {
+    var sectionEl = document.getElementById('product-recommendations-{{ section.id }}');
+    if (!sectionEl) return;
+
+    {% if section.settings.layout_type == 'carousel' and section.settings.icons_style != 'none' %}
+
+    function createNav(headerWrapper) {
+      // Don't add if already exists
+      if (headerWrapper.querySelector('.product-recommendations__nav')) return;
+
+      var nav = document.createElement('div');
+      nav.className = 'product-recommendations__nav';
+
+      var prevBtn = document.createElement('button');
+      prevBtn.className = 'product-recommendations__nav-btn product-recommendations__nav-btn--prev';
+      prevBtn.setAttribute('aria-label', 'Previous');
+      prevBtn.disabled = true;
+      prevBtn.innerHTML = '<span class="svg-wrapper icon-arrow flip-x">{{ "icon-arrow.svg" | inline_asset_content | strip_newlines | replace: "'", "\\'" }}</span>';
+
+      var nextBtn = document.createElement('button');
+      nextBtn.className = 'product-recommendations__nav-btn product-recommendations__nav-btn--next';
+      nextBtn.setAttribute('aria-label', 'Next');
+      nextBtn.innerHTML = '<span class="svg-wrapper icon-arrow">{{ "icon-arrow.svg" | inline_asset_content | strip_newlines | replace: "'", "\\'" }}</span>';
+
+      nav.appendChild(prevBtn);
+      nav.appendChild(nextBtn);
+      headerWrapper.appendChild(nav);
+
+      return { prevBtn: prevBtn, nextBtn: nextBtn };
+    }
+
+    function wireArrows() {
+      var headerWrapper = sectionEl.querySelector('.product-recommendations__header-wrapper');
+      var slideshow = sectionEl.querySelector('.resource-list__carousel slideshow-component');
+      if (!headerWrapper || !slideshow) return;
+
+      var btns = createNav(headerWrapper);
+      if (!btns) return;
+
+      btns.prevBtn.addEventListener('click', function() {
+        if (slideshow.previous) slideshow.previous();
+      });
+
+      btns.nextBtn.addEventListener('click', function() {
+        if (slideshow.next) slideshow.next();
+      });
+
+      function updateButtons() {
+        var slides = slideshow.slides;
+        if (!slides || slides.length <= 1) {
+          btns.prevBtn.disabled = true;
+          btns.nextBtn.disabled = true;
+          return;
+        }
+        btns.prevBtn.disabled = slideshow.atStart;
+        btns.nextBtn.disabled = slideshow.atEnd;
+      }
+
+      slideshow.addEventListener('slideshow:select', updateButtons);
+      var mo = new MutationObserver(updateButtons);
+      mo.observe(slideshow, { attributes: true });
+      setTimeout(updateButtons, 500);
+    }
+
+    // Watch for recommendations to load (they are fetched via AJAX)
+    var observer = new MutationObserver(function() {
+      var slideshow = sectionEl.querySelector('.resource-list__carousel slideshow-component');
+      if (slideshow) {
+        observer.disconnect();
+        setTimeout(wireArrows, 100);
+      }
+    });
+    observer.observe(sectionEl, { childList: true, subtree: true });
+
+    // Also try immediately
+    wireArrows();
+
+    {% endif %}
+  })();
+</script>
 
 {% schema %}
 {

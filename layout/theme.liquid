@@ -177,6 +177,7 @@
       .tax-gst-info .inclusive {
         display: block;
         margin-bottom: 8px;
+        color: #000000;
       }
 
       .tax-gst-info .gst-benefit {
@@ -525,6 +526,27 @@
         position: relative !important;
       }
 
+      /* Selected variant - black border using correct :has(:checked) selector */
+      .variant-option__button-label:has(:checked) {
+        border: 2px solid #000000 !important;
+        border-color: #000000 !important;
+        color: #000 !important;
+        font-weight: 500 !important;
+        z-index: 2 !important;
+        position: relative !important;
+        background: #ffffff !important;
+      }
+
+      /* Override the ::before pseudo-element border for selected variant */
+      .variant-option__button-label:has(:checked)::before {
+        border-color: #000000 !important;
+      }
+
+      /* Hide quantity selector on PDP */
+      .product-information .quantity-selector-wrapper {
+        display: none !important;
+      }
+
       /* Sticky Buy Buttons - Mobile Only */
       @media screen and (max-width: 768px) {
         /* Create sticky container */
@@ -585,7 +607,7 @@
         .product-form-buttons .shopify-payment-button__button {
           background: #000000 !important;
           color: #ffffff !important;
-          border: 2px solid #000000 !important;
+          border: none !important;
           padding: 14px 20px !important;
           font-size: 14px !important;
           font-weight: 600 !important;
@@ -674,6 +696,53 @@
       /* Hide cart icon from add to cart button */
       .product-form-buttons .add-to-cart-icon {
         display: none !important;
+      }
+
+      /* Remove border/box-shadow from Buy Now button on desktop */
+      .shopify-payment-button__button,
+      .product-form-buttons .shopify-payment-button__button,
+      button.shopify-payment-button__button--unbranded,
+      .shopify-payment-button .shopify-payment-button__button,
+      .product-information .shopify-payment-button__button,
+      .product-information .shopify-payment-button .shopify-payment-button__button {
+        border: none !important;
+        border-width: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+        -webkit-appearance: none !important;
+      }
+
+      .shopify-payment-button,
+      .product-information .shopify-payment-button {
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      /* Hide sale badge on product cards (keep sold out badge) */
+      .product-badges__badge.color-{{ settings.badge_sale_color_scheme }} {
+        display: none !important;
+      }
+
+      /* PDP product title */
+      .product-information h1 {
+        font-size: 32px !important;
+        text-transform: uppercase !important;
+        margin: 0 !important;
+      }
+
+      /* PDP compare-at price - black instead of grey */
+      .product-information .compare-at-price {
+        opacity: 1 !important;
+        color: #000 !important;
+      }
+
+      /* PDP tax and GST text sizes */
+      .product-information .inclusive {
+        font-size: 12px !important;
+      }
+
+      .product-information .gst-benefit {
+        font-size: 16px !important;
       }
 
       /* Product Accordion Styles */
@@ -770,7 +839,7 @@
         padding: 0 0 16px 0 !important;
         font-size: 13px !important;
         font-weight: 500 !important;
-        color: #666666 !important;
+        color: #000000 !important;
         letter-spacing: 0.3px !important;
         font-family: var(--font-body--family) !important;
         margin-bottom: 0 !important;
@@ -779,6 +848,69 @@
       /* Open state for accordion */
       .accordion-header[aria-expanded="true"] + .accordion-content {
         max-height: none !important;
+      }
+
+      /* Desktop: horizontal tab layout for product accordion */
+      @media screen and (min-width: 750px) {
+        .product-accordion {
+          display: flex !important;
+          flex-wrap: wrap !important;
+        }
+
+        .product-accordion .short-description {
+          width: 100% !important;
+          order: 0 !important;
+        }
+
+        .product-accordion .delivery-info {
+          width: 100% !important;
+          order: 1 !important;
+        }
+
+        .product-accordion .accordion-item {
+          display: contents !important;
+        }
+
+        /* Tab headers on one line */
+        .product-accordion .accordion-header {
+          order: 2 !important;
+          width: auto !important;
+          font-size: 16px !important;
+          font-weight: 500 !important;
+          color: #000000 !important;
+          padding: 16px 32px 12px 0 !important;
+          border: none !important;
+          text-decoration: none !important;
+        }
+
+        /* Hide chevron icon on desktop */
+        .product-accordion .accordion-icon {
+          display: none !important;
+        }
+
+        /* Underline the active tab */
+        .product-accordion .accordion-header[aria-expanded="true"] {
+          text-decoration: underline !important;
+          text-underline-offset: 8px !important;
+          text-decoration-thickness: 2px !important;
+        }
+
+        /* Content below spanning full width */
+        .product-accordion .accordion-content {
+          order: 3 !important;
+          width: 100% !important;
+        }
+
+        .product-accordion .accordion-inner {
+          font-size: 12px !important;
+          color: #000000 !important;
+        }
+
+        .product-accordion .accordion-inner p,
+        .product-accordion .accordion-inner li {
+          font-size: 12px !important;
+          color: #000000 !important;
+        }
       }
 
       /* Force 3 columns on desktop for product grid */
@@ -1421,10 +1553,39 @@
           padding: 14px 0 !important;
         }
       }
+
+      /* Collapse whitespace in logo image to reduce header height */
+      #header-component .header-logo {
+        margin-top: -20px !important;
+        margin-bottom: -20px !important;
+      }
+
+      /* PDP transparent header - push product details below header on desktop */
+      @media screen and (min-width: 750px) {
+        .template-product main .product-details {
+          padding-top: calc(var(--header-height, 60px) + 40px);
+        }
+      }
+
+      /* PDP - reduce image column width on desktop */
+      @media screen and (min-width: 750px) {
+        main[data-template="product"] .product-information__grid.product-information--media-left {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      }
+
+      /* PDP - add left/right padding to product details content */
+      @media screen and (min-width: 750px) {
+        main[data-template="product"] .product-details {
+          padding-left: 120px !important;
+          padding-right: 120px !important;
+        }
+      }
+
     </style>
   </head>
 
-  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} template-{{ template }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
@@ -1518,5 +1679,21 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+    <script>
+      // Change "Buy it now" to "Buy now"
+      (function() {
+        function updateBuyNowText() {
+          document.querySelectorAll('.shopify-payment-button__button').forEach(function(btn) {
+            if (btn.textContent.trim() === 'Buy it now') {
+              btn.textContent = 'Buy now';
+            }
+          });
+        }
+        // Run on load and observe for dynamic changes
+        updateBuyNowText();
+        var observer = new MutationObserver(updateBuyNowText);
+        observer.observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
   </body>
 </html>

@@ -67,6 +67,7 @@
 
     if (accordion) {
       const headers = accordion.querySelectorAll('.accordion-header');
+      const isDesktop = () => window.matchMedia('(min-width: 750px)').matches;
 
       headers.forEach(header => {
         header.addEventListener('click', function() {
@@ -74,17 +75,43 @@
           const content = this.nextElementSibling;
           const icon = this.querySelector('.accordion-icon');
 
-          if (isExpanded) {
-            this.setAttribute('aria-expanded', 'false');
-            content.style.maxHeight = '0';
-            icon.style.transform = 'rotate(0deg)';
+          if (isDesktop()) {
+            // Tab behavior: close all others, toggle this one
+            if (!isExpanded) {
+              headers.forEach(h => {
+                h.setAttribute('aria-expanded', 'false');
+                h.nextElementSibling.style.maxHeight = '0';
+                const hIcon = h.querySelector('.accordion-icon');
+                if (hIcon) hIcon.style.transform = 'rotate(0deg)';
+              });
+              this.setAttribute('aria-expanded', 'true');
+              content.style.maxHeight = content.scrollHeight + 'px';
+              if (icon) icon.style.transform = 'rotate(180deg)';
+            }
           } else {
-            this.setAttribute('aria-expanded', 'true');
-            content.style.maxHeight = content.scrollHeight + 'px';
-            icon.style.transform = 'rotate(180deg)';
+            // Mobile: normal accordion toggle
+            if (isExpanded) {
+              this.setAttribute('aria-expanded', 'false');
+              content.style.maxHeight = '0';
+              if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+              this.setAttribute('aria-expanded', 'true');
+              content.style.maxHeight = content.scrollHeight + 'px';
+              if (icon) icon.style.transform = 'rotate(180deg)';
+            }
           }
         });
       });
+
+      // On desktop, open the first tab by default
+      if (isDesktop() && headers.length > 0) {
+        const firstHeader = headers[0];
+        const firstContent = firstHeader.nextElementSibling;
+        firstHeader.setAttribute('aria-expanded', 'true');
+        firstContent.style.maxHeight = firstContent.scrollHeight + 'px';
+        const firstIcon = firstHeader.querySelector('.accordion-icon');
+        if (firstIcon) firstIcon.style.transform = 'rotate(180deg)';
+      }
     }
   });
 </script>

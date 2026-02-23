@@ -263,35 +263,7 @@
                     {%- endif -%}
                   </div>
 
-                  <div class="cart-items__unit-price-wrapper">
-                    <div>
-                      {% if item.original_price != item.final_price %}
-                        <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
-                        <span>{{ item.final_price | money }}</span>
-                        <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
-                        <s class="compare-at-price">
-                          {% if item.variant.compare_at_price > item.original_price %}
-                            {{ item.variant.compare_at_price | money }}
-                          {% else %}
-                            {{ item.original_price | money }}
-                          {% endif %}
-                        </s>
-                      {% else %}
-                        {% if item.variant.compare_at_price > item.original_price %}
-                          <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
-                        {% else %}
-                          <span class="visually-hidden">{{ 'content.price' | t }}</span>
-                        {% endif %}
-
-                        <span>{{ item.original_price | money }}</span>
-
-                        {% if item.variant.compare_at_price > item.original_price %}
-                          <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
-                          <s class="compare-at-price">{{ item.variant.compare_at_price | money }}</s>
-                        {% endif %}
-                      {% endif %}
-                    </div>
-                  </div>
+                  {% comment %} Duplicate unit price removed {% endcomment %}
                 </td>
                 <td
                   class="cart-items__quantity"
@@ -366,7 +338,24 @@
                   role="cell"
                   headers="productTotal"
                 >
-                  <text-component value="{{ price | strip_html }}">{{ price }}</text-component>
+                  {%- liquid
+                    assign is_on_sale = false
+                    if item.original_price != item.final_price
+                      assign is_on_sale = true
+                    elsif item.variant.compare_at_price > item.original_price
+                      assign is_on_sale = true
+                    endif
+                  -%}
+                  <text-component class="{% if is_on_sale %}cart-items__sale-price{% endif %}" value="{{ price | strip_html }}">{{ price }}</text-component>
+                  {%- if is_on_sale -%}
+                    <s class="compare-at-price cart-items__original-line-price">
+                      {%- if settings.currency_code_enabled_cart_items -%}
+                        {{ item.original_line_price | money_with_currency }}
+                      {%- else -%}
+                        {{ item.original_line_price | money }}
+                      {%- endif -%}
+                    </s>
+                  {%- endif -%}
                   {%- if item.unit_price_measurement -%}
                     <div class="cart-items__price-unit cart-secondary-typography">
                       {% render 'unit-price', price: unit_price, measurement: item.unit_price_measurement %}
@@ -620,6 +609,18 @@
     display: block;
     font-size: var(--font-size--sm);
     line-height: var(--line-height);
+  }
+
+  .cart-items__sale-price {
+    color: #d32f2f !important;
+    font-weight: bold;
+  }
+
+  .cart-items__original-line-price {
+    display: block;
+    color: #000 !important;
+    font-size: var(--font-size--xs);
+    text-decoration: line-through;
   }
 
 
