@@ -169,9 +169,33 @@
 </product-recommendations>
 
 {% stylesheet %}
-  /* Heading wrapper needs relative positioning for the nav */
+  /* Add space between PDP and this section */
+  product-recommendations {
+    margin-top: 90px;
+  }
+
+  /* Force the carousel to go edge to edge (no page-width gutters) */
+  .product-recommendations .resource-list__carousel {
+    --gutter-slide-width: 0px !important;
+  }
+
+  /* Push the header to the left edge like the carousel */
   .product-recommendations .product-recommendations__header-wrapper {
     position: relative;
+    grid-column: 1 / -1;
+    padding-left: 40px;
+  }
+
+  /* Heading: 40px, all caps */
+  .product-recommendations .product-recommendations__header-wrapper h1,
+  .product-recommendations .product-recommendations__header-wrapper h2,
+  .product-recommendations .product-recommendations__header-wrapper h3,
+  .product-recommendations .product-recommendations__header-wrapper h4,
+  .product-recommendations .product-recommendations__header-wrapper h5,
+  .product-recommendations .product-recommendations__header-wrapper h6,
+  .product-recommendations .product-recommendations__header-wrapper p {
+    font-size: 40px !important;
+    text-transform: uppercase !important;
   }
 
   /* Nav arrows in the top-right of the heading row */
