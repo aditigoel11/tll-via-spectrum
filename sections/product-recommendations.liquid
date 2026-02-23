@@ -237,6 +237,31 @@
   .product-recommendations .resource-list__carousel slideshow-container > slideshow-arrows {
     display: none !important;
   }
+
+  /* Mobile: smaller heading, hide nav arrows, tighter spacing */
+  @media screen and (max-width: 749px) {
+    product-recommendations {
+      margin-top: 32px;
+    }
+
+    .product-recommendations .product-recommendations__header-wrapper {
+      padding-left: 16px;
+    }
+
+    .product-recommendations .product-recommendations__header-wrapper h1,
+    .product-recommendations .product-recommendations__header-wrapper h2,
+    .product-recommendations .product-recommendations__header-wrapper h3,
+    .product-recommendations .product-recommendations__header-wrapper h4,
+    .product-recommendations .product-recommendations__header-wrapper h5,
+    .product-recommendations .product-recommendations__header-wrapper h6,
+    .product-recommendations .product-recommendations__header-wrapper p {
+      font-size: 28px !important;
+    }
+
+    .product-recommendations__nav {
+      display: none !important;
+    }
+  }
 {% endstylesheet %}
 
 <script>

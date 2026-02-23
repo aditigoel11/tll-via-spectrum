@@ -383,6 +383,11 @@
   .product-form-buttons > *:not(.quantity-selector-wrapper, .quantity-rules, .quantity-label, .volume-pricing) {
     flex: 1 1 var(--buy-button-preferred-width, 0);
     min-width: fit-content;
+
+    @media screen and (max-width: 749px) {
+      flex: 1 1 0;
+      min-width: 0;
+    }
   }
 
   .product-form-buttons--stacked

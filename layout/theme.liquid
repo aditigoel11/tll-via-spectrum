@@ -1567,18 +1567,21 @@
         }
       }
 
-      /* PDP - reduce image column width on desktop */
+      /* PDP - full-width grid with image extending left and details centered in right half */
       @media screen and (min-width: 750px) {
         main[data-template="product"] .product-information__grid.product-information--media-left {
+          grid-column: 1 / -1 !important;
           grid-template-columns: 1fr 1fr !important;
         }
-      }
 
-      /* PDP - add left/right padding to product details content */
-      @media screen and (min-width: 750px) {
         main[data-template="product"] .product-details {
-          padding-left: 120px !important;
-          padding-right: 120px !important;
+          display: flex !important;
+          justify-content: center !important;
+        }
+
+        main[data-template="product"] .product-details > .group-block {
+          max-width: 480px !important;
+          width: 100% !important;
         }
       }
 
@@ -1595,6 +1598,14 @@
       /* PDP - hide Buy Now (accelerated checkout) button on desktop */
       @media screen and (min-width: 750px) {
         main[data-template="product"] .accelerated-checkout-block {
+          display: none !important;
+        }
+      }
+
+      /* Mobile: hide PDP buy buttons & sticky bar when any drawer/modal is open */
+      @media screen and (max-width: 749px) {
+        html[scroll-lock] .sticky-add-to-cart__bar,
+        html[scroll-lock] .buy-buttons-block {
           display: none !important;
         }
       }
