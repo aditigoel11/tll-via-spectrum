@@ -149,17 +149,6 @@
   }
 
   /**
-   * Check if product is a new arrival (published within last 30 days)
-   */
-  function isNewArrival(product) {
-    if (!product.published_at) return false;
-    var published = new Date(product.published_at).getTime();
-    var now = Date.now();
-    var daysSince = (now - published) / (1000 * 60 * 60 * 24);
-    return daysSince <= 30;
-  }
-
-  /**
    * Render a product card matching PDP product-card UI
    */
   function renderCard(product, moneyFormat) {
@@ -186,11 +175,6 @@
 
     // --- Badges ---
     var badgesHtml = '';
-
-    // New Arrival badge
-    if (isNewArrival(product)) {
-      badgesHtml += '<div class="cart-reco__badge-new">NEW ARRIVAL</div>';
-    }
 
     // Discount % badge
     if (isOnSale) {

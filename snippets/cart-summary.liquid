@@ -89,6 +89,7 @@
           </accordion-custom>
         </cart-note>
       {% endif %}
+      {% comment %}
       {% if settings.show_cart_note and settings.show_add_discount_code %}
         <div class="cart-actions__divider"></div>
       {% endif %}
@@ -105,7 +106,6 @@
 
           assign discount_codes = discount_codes | uniq
 
-          # Evaluate the boolean expression for the disclosure state
           if discount_codes.size == 0
             assign disclosure_expanded = false
           else
@@ -212,6 +212,7 @@
           </details>
         </accordion-custom>
       {% endif %}
+      {% endcomment %}
     </div>
   {% endif %}
 
