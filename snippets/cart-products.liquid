@@ -396,7 +396,7 @@
 
   .cart-items__table-row {
     display: grid;
-    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr);
+    grid-template-columns: clamp(5rem, 25cqi, 10rem) minmax(0, 1fr);
     grid-template-areas:
       'media details'
       'media quantity'
@@ -409,7 +409,7 @@
 
   /* Cart drawer: separate grid areas for variants and unit price */
   .cart-drawer .cart-items__table-row--full-width-variants {
-    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr);
+    grid-template-columns: clamp(5rem, 25cqi, 10rem) minmax(0, 1fr);
     grid-template-rows: repeat(4, min-content) 1fr;
     grid-template-areas:
       'media details'
@@ -505,7 +505,7 @@
   }
 
   .cart-items__details * {
-    font-size: var(--font-size--sm);
+    font-size: 12px;
   }
 
   .cart-items__details a {
@@ -513,11 +513,11 @@
   }
 
   .cart-items__title {
-    font-size: var(--font-size--md);
+    font-size: 12px !important;
     color: var(--color-foreground);
     text-transform: uppercase !important;
     display: block;
-    margin-block-start: calc((var(--font-size--md) - 1lh) / 2);
+    margin-block-start: 0;
   }
 
   .cart-items__variants {
@@ -601,6 +601,7 @@
   .cart-items__media {
     grid-area: media;
     padding: 0;
+    align-self: stretch;
   }
 
   .cart-items__inline-price {
@@ -613,12 +614,12 @@
   .cart-items__inline-price .cart-items__sale-price {
     color: #d32f2f !important;
     font-weight: bold;
-    font-size: var(--font-size--sm);
+    font-size: 12px !important;
   }
 
   .cart-items__inline-price .cart-items__compare-price {
     color: #000 !important;
-    font-size: var(--font-size--sm);
+    font-size: 12px !important;
     text-decoration: line-through;
   }
 
@@ -646,18 +647,17 @@
 
   .cart-items__media-container {
     display: flex;
-    aspect-ratio: var(--ratio);
     position: relative;
     width: 100%;
+    height: 100%;
     overflow: hidden;
   }
 
   .cart-items__media-image {
-    aspect-ratio: inherit;
     object-fit: cover;
     object-position: center center;
     width: 100%;
-    height: auto;
+    height: 100%;
   }
 
   .cart-items__empty-button {
@@ -704,7 +704,7 @@
   @container cart-items (min-width: 720px) {
     /* Cart page: layout without price column */
     .cart-items__table-row {
-      grid-template-columns: 7.5rem 1fr 1fr;
+      grid-template-columns: 10rem 1fr 1fr;
       grid-template-rows: min-content 1fr;
       grid-template-areas:
         'media details quantity'

@@ -193,11 +193,13 @@
                 id="cart-drawer-header"
               >
                 <h2
-                  class="cart-drawer__heading h4"
+                  class="cart-drawer__heading h4 cart-drawer__heading--custom"
                   id="cart-drawer-heading"
                 >
                   {{ 'content.cart_title' | t }}
-                  {% render 'cart-bubble' %}
+                  {%- if cart.item_count > 0 -%}
+                    <span class="cart-drawer__count">({{ cart.item_count }})</span>
+                  {%- endif -%}
                 </h2>
 
                 <button
@@ -366,6 +368,18 @@
     align-items: center;
     gap: var(--gap-xs);
     margin-bottom: 0;
+  }
+
+  .cart-drawer__heading--custom {
+    font-size: 24px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em;
+    font-weight: bold;
+  }
+
+  .cart-drawer__count {
+    font-size: 24px;
+    font-weight: inherit;
   }
 
   .cart-drawer__close-button {

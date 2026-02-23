@@ -264,8 +264,8 @@
     {% endif %}
     form="cart-form"
   >
-    <span class="button-text">
-      {{ 'content.checkout' | t }}
+    <span class="button-text" style="text-transform: uppercase; letter-spacing: 0.05em;">
+      PROCEED TO CHECKOUT
     </span>
   </button>
 
@@ -467,6 +467,7 @@
     width: 100%;
     height: clamp(25px, var(--height-buy-buttons), 55px);
     padding-inline: var(--padding-4xl);
+    border-radius: 0 !important;
   }
 
   .cart-drawer__summary .cart-totals:not(:has(.cart-totals__original-container:empty)) {
