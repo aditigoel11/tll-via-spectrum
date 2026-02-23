@@ -83,7 +83,6 @@
     if (!container) return [];
     var ids = container.dataset.productIds || '';
     var arr = ids.split(',').filter(Boolean);
-    // Deduplicate
     return Array.from(new Set(arr));
   }
 
@@ -126,7 +125,6 @@
           if (seenIds.has(product.id)) continue;
           if (!product.available) continue;
 
-          // Check at least one variant is available
           var hasAvailableVariant = false;
           if (product.variants) {
             for (var k = 0; k < product.variants.length; k++) {
@@ -151,10 +149,20 @@
   }
 
   /**
-   * Render a product card
+   * Check if product is a new arrival (published within last 30 days)
+   */
+  function isNewArrival(product) {
+    if (!product.published_at) return false;
+    var published = new Date(product.published_at).getTime();
+    var now = Date.now();
+    var daysSince = (now - published) / (1000 * 60 * 60 * 24);
+    return daysSince <= 30;
+  }
+
+  /**
+   * Render a product card matching PDP product-card UI
    */
   function renderCard(product, moneyFormat) {
-    // Use first available variant
     var variant = null;
     if (product.variants) {
       for (var i = 0; i < product.variants.length; i++) {
@@ -171,37 +179,135 @@
     var variantId = variant ? variant.id : null;
     var image = product.featured_image || (product.images && product.images[0]) || '';
     var imageUrl = typeof image === 'string' ? image : (image && image.src ? image.src : '');
-    var thumbUrl = optimizeImageUrl(imageUrl, 300);
+    var thumbUrl = optimizeImageUrl(imageUrl, 400);
+    var title = product.title.replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    var isOnSale = compareAt && parseFloat(compareAt) > parseFloat(price);
+    var isSoldOut = !product.available;
 
-    var priceHtml;
-    if (compareAt && parseFloat(compareAt) > parseFloat(price)) {
-      priceHtml =
-        '<span class="cart-reco__sale-price">' +
-        formatMoney(price, moneyFormat) +
-        '</span>' +
-        '<s class="cart-reco__compare-price">' +
-        formatMoney(compareAt, moneyFormat) +
-        '</s>';
-    } else {
-      priceHtml = '<span class="cart-reco__regular-price">' + formatMoney(price, moneyFormat) + '</span>';
+    // --- Badges ---
+    var badgesHtml = '';
+
+    // New Arrival badge
+    if (isNewArrival(product)) {
+      badgesHtml += '<div class="cart-reco__badge-new">NEW ARRIVAL</div>';
     }
 
-    var title = product.title.replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    // Discount % badge
+    if (isOnSale) {
+      var discount = Math.round(((parseFloat(compareAt) - parseFloat(price)) / parseFloat(compareAt)) * 100);
+      if (discount > 0) {
+        badgesHtml += '<div class="cart-reco__badge-discount">-' + discount + '% OFF</div>';
+      }
+    }
+
+    // Sold out badge
+    if (isSoldOut) {
+      badgesHtml += '<div class="cart-reco__badge-soldout">SOLD OUT</div>';
+    }
+
+    // --- Price ---
+    var priceHtml = '';
+    if (isOnSale) {
+      priceHtml =
+        '<div class="cart-reco__price-wrapper">' +
+        '<s class="cart-reco__compare-price">MRP ' + formatMoney(compareAt, moneyFormat) + '</s>' +
+        '<span class="cart-reco__sale-price">' + formatMoney(price, moneyFormat) + '</span>' +
+        '</div>';
+    } else {
+      priceHtml =
+        '<div class="cart-reco__price-wrapper">' +
+        '<span class="cart-reco__regular-price">' + formatMoney(price, moneyFormat) + '</span>' +
+        '</div>';
+    }
+
+    // --- Tax info ---
+    var taxHtml =
+      '<div class="cart-reco__tax-info">' +
+      '<span class="cart-reco__tax-inclusive">INCLUSIVE OF ALL TAXES</span>' +
+      '<span class="cart-reco__tax-gst">GST BENEFIT INCLUDED</span>' +
+      '</div>';
+
+    // --- Quick add button (mobile only) ---
+    var quickAddHtml = '';
+    if (variantId && !isSoldOut) {
+      quickAddHtml =
+        '<button class="cart-reco__quick-add" data-variant-id="' + variantId + '" type="button" aria-label="Quick add">' +
+        '<span class="cart-reco__quick-add-icon">+</span>' +
+        '</button>';
+    }
 
     return (
       '<div class="cart-reco__card">' +
-      '<a href="' + product.url + '" class="cart-reco__image-link">' +
+      '<a href="' + product.url + '" class="cart-reco__image-wrap">' +
       '<img src="' + thumbUrl + '" alt="' + title + '" class="cart-reco__image" loading="lazy">' +
+      badgesHtml +
+      quickAddHtml +
       '</a>' +
       '<div class="cart-reco__details">' +
       '<a href="' + product.url + '" class="cart-reco__title">' + product.title + '</a>' +
-      '<div class="cart-reco__price-row">' + priceHtml + '</div>' +
-      '<button class="cart-reco__add-btn" data-variant-id="' + variantId + '" type="button"' +
-      (!variantId ? ' disabled' : '') +
-      '>ADD TO BAG</button>' +
+      priceHtml +
+      taxHtml +
       '</div>' +
       '</div>'
     );
+  }
+
+  /**
+   * Handle quick-add click
+   */
+  function onQuickAdd(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var btn = e.currentTarget;
+    var variantId = btn.dataset.variantId;
+    if (!variantId || btn.disabled) return;
+
+    btn.disabled = true;
+    var icon = btn.querySelector('.cart-reco__quick-add-icon');
+    if (icon) icon.textContent = '...';
+
+    var sectionIds = [];
+    document.querySelectorAll('cart-items-component').forEach(function (el) {
+      if (el.dataset && el.dataset.sectionId) sectionIds.push(el.dataset.sectionId);
+    });
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        items: [{ id: parseInt(variantId, 10), quantity: 1 }],
+        sections: sectionIds.join(','),
+      }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.status) {
+          btn.disabled = false;
+          if (icon) icon.textContent = '+';
+          return;
+        }
+        if (icon) icon.textContent = '\u2713';
+        document.dispatchEvent(
+          new CustomEvent('cart:update', {
+            bubbles: true,
+            detail: {
+              resource: data,
+              sourceId: 'cart-drawer-recommendations',
+              data: { source: 'cart-drawer-recommendations', sections: data.sections || {} },
+            },
+          })
+        );
+        setTimeout(function () {
+          btn.disabled = false;
+          if (icon) icon.textContent = '+';
+          lastProductIds = '';
+          loadRecommendations();
+        }, 800);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        if (icon) icon.textContent = '+';
+      });
   }
 
   /**
@@ -231,85 +337,11 @@
       cardsHtml +
       '</div>';
 
-    // Attach add-to-bag handlers
-    var buttons = container.querySelectorAll('.cart-reco__add-btn');
+    // Attach quick-add handlers
+    var buttons = container.querySelectorAll('.cart-reco__quick-add');
     for (var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', onAddToBag);
+      buttons[i].addEventListener('click', onQuickAdd);
     }
-  }
-
-  /**
-   * Handle "ADD TO BAG" click
-   */
-  function onAddToBag(e) {
-    var btn = e.currentTarget;
-    var variantId = btn.dataset.variantId;
-    if (!variantId || btn.disabled) return;
-
-    btn.disabled = true;
-    btn.textContent = 'ADDING...';
-
-    // Collect section IDs for cart-items-components
-    var sectionIds = [];
-    var components = document.querySelectorAll('cart-items-component');
-    for (var i = 0; i < components.length; i++) {
-      if (components[i].dataset && components[i].dataset.sectionId) {
-        sectionIds.push(components[i].dataset.sectionId);
-      }
-    }
-
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        items: [{ id: parseInt(variantId, 10), quantity: 1 }],
-        sections: sectionIds.join(','),
-      }),
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data.status) {
-          // Error from Shopify
-          btn.textContent = 'ADD TO BAG';
-          btn.disabled = false;
-          return;
-        }
-
-        btn.textContent = 'ADDED';
-
-        // Dispatch cart:update so cart-items-component morphs with new section HTML
-        document.dispatchEvent(
-          new CustomEvent('cart:update', {
-            bubbles: true,
-            detail: {
-              resource: data,
-              sourceId: 'cart-drawer-recommendations',
-              data: {
-                source: 'cart-drawer-recommendations',
-                sections: data.sections || {},
-              },
-            },
-          })
-        );
-
-        // After morph completes, re-fetch recommendations
-        setTimeout(function () {
-          btn.textContent = 'ADD TO BAG';
-          btn.disabled = false;
-          lastProductIds = '';
-          loadRecommendations();
-        }, 800);
-      })
-      .catch(function (err) {
-        console.error('Cart reco add error:', err);
-        btn.textContent = 'ADD TO BAG';
-        btn.disabled = false;
-      });
   }
 
   /**
@@ -324,7 +356,6 @@
       return;
     }
 
-    // Use cache if same products
     if (currentIds === lastProductIds && cachedProducts.length > 0) {
       render(cachedProducts);
       return;
@@ -348,12 +379,11 @@
   }
 
   /**
-   * Watch for cart drawer dialog open/close via MutationObserver
+   * Watch for cart drawer dialog open via MutationObserver
    */
   function observeDrawer() {
     var dialog = document.querySelector('cart-drawer-component dialog');
     if (!dialog) {
-      // Retry — element might not be in DOM yet
       setTimeout(observeDrawer, 500);
       return;
     }
@@ -371,7 +401,6 @@
 
     drawerObserver.observe(dialog, { attributes: true, attributeFilter: ['open'] });
 
-    // If already open (edge case)
     if (dialog.hasAttribute('open')) {
       loadRecommendations();
     }
@@ -381,12 +410,9 @@
    * Initialize
    */
   function init() {
-    // Watch for drawer open
     observeDrawer();
 
-    // Re-populate after cart updates (morph resets our container)
-    document.addEventListener('cart:update', function (e) {
-      // After morph completes, re-populate
+    document.addEventListener('cart:update', function () {
       setTimeout(function () {
         lastProductIds = '';
         loadRecommendations();
