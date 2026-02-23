@@ -554,10 +554,10 @@
           flex: 1 !important;
           background: #ffffff !important;
           color: #000000 !important;
-          border: 2px solid #000000 !important;
+          border: 1px solid #000000 !important;
           padding: 14px 20px !important;
-          font-size: 14px !important;
-          font-weight: 600 !important;
+          font-size: 16px !important;
+          font-weight: 500 !important;
           text-transform: uppercase !important;
           border-radius: 0 !important;
           height: 48px !important;
@@ -566,6 +566,12 @@
           justify-content: center !important;
           cursor: pointer !important;
           transition: all 0.3s ease !important;
+          letter-spacing: 0.5px !important;
+        }
+
+        /* Hide cart icon from add to cart button on PDP */
+        .product-form-buttons .add-to-cart-icon {
+          display: none !important;
         }
 
         /* Buy it Now button - black background */
@@ -647,6 +653,28 @@
           position: relative !important;
         }
       }
+
+      /* Add to Cart button - global styles */
+      .product-form-buttons .button[name="add"],
+      .product-form-buttons button[type="submit"]:not(.shopify-payment-button__button) {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #000000 !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        border-radius: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      /* Hide cart icon from add to cart button */
+      .product-form-buttons .add-to-cart-icon {
+        display: none !important;
+      }
+
       /* Product Accordion Styles */
       .product-accordion {
         margin-top: 24px !important;
@@ -654,7 +682,7 @@
       }
 
       .short-description {
-        padding: 0 0 20px 0 !important;
+        padding: 0 0 18px 0 !important;
         font-size: 14px !important;
         line-height: 1.6 !important;
         color: #333333 !important;
@@ -738,7 +766,7 @@
       }
 
       .delivery-info {
-        padding: 16px 0 !important;
+        padding: 0 0 16px 0 !important;
         font-size: 13px !important;
         font-weight: 500 !important;
         color: #666666 !important;
@@ -752,6 +780,14 @@
         max-height: none !important;
       }
 
+      /* Force 3 columns on desktop for product grid */
+      @media screen and (min-width: 750px) {
+        .product-grid.product-grid--grid {
+          --product-grid-columns-desktop: repeat(3, 1fr) !important;
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+      }
+
       /* Product Card Styling */
       .product-card {
         position: relative !important;
@@ -759,9 +795,12 @@
 
       .product-card .product-card__content {
         position: relative !important;
+        z-index: 2 !important;
+        padding: 10px 20px 0px 10px !important;
+        gap: 0px !important;
       }
 
-      /* Product card link should not cover the plus button */
+      /* Product card link sits below content so variant popup buttons are clickable */
       .product-card .product-card__link {
         z-index: 1 !important;
       }
@@ -803,14 +842,21 @@
       }
 
       /* Product Card Title */
+      .product-card .product_title,
+      .product-card .product_title p,
       .product-card .product-title h3,
       .product-card h3,
-      [data-block-type="product-title"] {
+      .product-card .text-block.product_title,
+      .product-card .text-block.product_title p,
+      [data-block-type="product-title"],
+      [data-block-type="product-title"] p,
+      [data-block-type="product-title"] .product_title,
+      [data-block-type="product-title"] .product_title p {
         font-size: 14px !important;
         font-weight: 500 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
-        margin: 8px 0 !important;
+        margin: 0 !important;
         line-height: 1.4 !important;
         color: #000000 !important;
       }
@@ -820,13 +866,14 @@
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
-        margin-top: 8px !important;
+        margin: 0 !important;
       }
 
       .product-card .compare-at-price {
         font-size: 14px !important;
-        color: #666666 !important;
+        color: #000000 !important;
         text-decoration: line-through !important;
+        opacity: 1 !important;
       }
 
       .product-card .compare-at-price::before {
@@ -842,13 +889,20 @@
         font-weight: 600 !important;
       }
 
+      /* Product card price container - flex column for even spacing */
+      .product-card [ref="priceContainer"] {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+      }
+
       /* Tax/GST info in product cards */
       .product-card .tax-gst-info {
         display: flex !important;
         flex-direction: column !important;
         gap: 2px !important;
-        margin-top: 6px !important;
-        padding-top: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
 
       .product-card .tax-gst-info .inclusive {
@@ -861,7 +915,7 @@
 
       .product-card .tax-gst-info .gst-benefit {
         font-size: 10px !important;
-        color: #666666 !important;
+        color: #000000 !important;
         letter-spacing: 0.3px !important;
         text-transform: uppercase !important;
         font-weight: 500 !important;
@@ -902,6 +956,14 @@
         line-height: 1 !important;
       }
 
+      /* Hide + button on desktop - hover variant selector replaces it */
+      @media screen and (min-width: 750px) {
+        .product-card-quick-add,
+        button.product-card-quick-add {
+          display: none !important;
+        }
+      }
+
       /* Variant Selector Popup Styles */
       .product-card__content {
         position: relative !important;
@@ -922,8 +984,11 @@
         box-shadow: 0 0 0 1px #e0e0e0 inset !important;
       }
 
-      .variant-selector-popup[style*="block"] {
-        display: block !important;
+      /* Mobile only: show popup when plus button sets display:block */
+      @media screen and (max-width: 749px) {
+        .variant-selector-popup[style*="block"] {
+          display: block !important;
+        }
       }
 
       .variant-popup-content {
@@ -1026,6 +1091,89 @@
         border-bottom: 1px solid #e0e0e0 !important;
       }
 
+      /* Desktop: variant selector as horizontal frosted-glass bar */
+      @media screen and (min-width: 750px) {
+        /*
+         * Desktop layout is applied unconditionally so the popup never
+         * flashes the mobile (vertical/white) styles during transitions.
+         * Only opacity + transform are toggled on hover.
+         */
+        product-card .variant-selector-popup {
+          display: block !important;
+          height: auto !important;
+          opacity: 0 !important;
+          transform: translateY(100%) !important;
+          pointer-events: none !important;
+          transition: transform 0.3s ease, opacity 0.3s ease !important;
+          background: rgba(255, 255, 255, 0.75) !important;
+          backdrop-filter: blur(12px) !important;
+          -webkit-backdrop-filter: blur(12px) !important;
+          box-shadow: none !important;
+          border: 1px solid rgba(255, 255, 255, 0.5) !important;
+          border-radius: 0 !important;
+          overflow: visible !important;
+        }
+
+        /* Ignore inline style="display:block" from JS click — hover controls visibility on desktop */
+        product-card .variant-selector-popup[style*="block"] {
+          opacity: 0 !important;
+          transform: translateY(100%) !important;
+          pointer-events: none !important;
+        }
+
+        /* Show on hover */
+        product-card:hover .variant-selector-popup,
+        product-card:hover .variant-selector-popup[style*="block"] {
+          opacity: 1 !important;
+          transform: translateY(0) !important;
+          pointer-events: auto !important;
+        }
+
+        /* Desktop layout: always applied (not only on :hover) so transitions stay consistent */
+        product-card .variant-popup-content {
+          background: transparent !important;
+          padding: 10px 8px !important;
+          overflow: visible !important;
+        }
+
+        product-card .variant-popup-header {
+          display: none !important;
+        }
+
+        product-card .variant-popup-size-guide {
+          display: none !important;
+        }
+
+        product-card .variant-popup-options {
+          flex-direction: row !important;
+          flex-wrap: wrap !important;
+          gap: 6px !important;
+          margin-bottom: 0 !important;
+          justify-content: center !important;
+          align-items: center !important;
+        }
+
+        product-card .variant-popup-option {
+          width: auto !important;
+          padding: 4px 10px !important;
+          font-size: 16px !important;
+          background: transparent !important;
+          border: none !important;
+          font-weight: 400 !important;
+          color: #000000 !important;
+        }
+
+        product-card .variant-popup-option:hover:not(:disabled) {
+          background: rgba(0, 0, 0, 0.08) !important;
+          border-radius: 4px !important;
+        }
+
+        product-card .variant-popup-option--unavailable,
+        product-card .variant-popup-option:disabled {
+          color: #000000 !important;
+          text-decoration: line-through !important;
+        }
+      }
 
       /* Hide default quick-add button */
       .product-card .quick-add {
@@ -1040,6 +1188,216 @@
       /* Hide discount badge in product cards - using the snippet version */
       .product-card .discount-badge {
         display: none !important;
+      }
+
+      /* Desktop Product Card Text Overrides */
+      @media screen and (min-width: 750px) {
+        /* Container: zero padding, flex column, gap controls spacing */
+        .product-card .product-card__content {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 6px !important;
+          padding: 0 !important;
+        }
+
+        /* Nuclear reset: strip ALL spacing from every element inside card content */
+        .product-card .product-card__content > *,
+        .product-card .product-card__content > a.contents > *,
+        .product-card .product-card__content .text-block,
+        .product-card .product-card__content product-price,
+        .product-card .product-card__content rte-formatter,
+        .product-card .product-card__content .product_title {
+          margin: 0 !important;
+          margin-block: 0 !important;
+          margin-inline: 0 !important;
+          padding: 0 !important;
+          padding-block: 0 !important;
+          padding-inline: 0 !important;
+          --padding-block-start: 0px !important;
+          --padding-block-end: 0px !important;
+          --padding-inline-start: 0px !important;
+          --padding-inline-end: 0px !important;
+          box-sizing: border-box !important;
+          width: 100% !important;
+        }
+
+        .product-card .product_title p,
+        .product-card .text-block.product_title p,
+        .product-card rte-formatter.product_title p {
+          margin: 0 !important;
+          margin-block: 0 !important;
+          padding: 0 !important;
+        }
+
+        /* Image: edge to edge, no padding */
+        .product-card .card-gallery {
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        /* Consistent left/right padding on BOTH title and price wrappers */
+        .product-card .product_title,
+        .product-card rte-formatter.product_title,
+        .product-card .text-block.product_title,
+        .product-card product-price {
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+        }
+
+        /* Product Card Title - 13px, 400 weight */
+        .product-card .product_title,
+        .product-card .product_title p,
+        .product-card rte-formatter.product_title,
+        .product-card rte-formatter.product_title p,
+        .product-card .text-block.product_title p {
+          font-size: 13px !important;
+          font-weight: 400 !important;
+        }
+
+        /* Product Card Price - 13px */
+        .product-card .compare-at-price {
+          font-size: 13px !important;
+        }
+
+        .product-card .price {
+          font-size: 13px !important;
+        }
+
+        /* Tax/GST info - flex column with small gap */
+        .product-card .tax-gst-info {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 2px !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          line-height: 1.4 !important;
+        }
+
+        .product-card .tax-gst-info .inclusive {
+          margin: 0 !important;
+          line-height: 1.4 !important;
+        }
+
+        /* GST benefit line - 12px, 700 weight */
+        .product-card .tax-gst-info .gst-benefit {
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          margin: 0 !important;
+          line-height: 1.4 !important;
+        }
+
+        /* PDP "You may also like" - make product images bigger */
+        product-recommendations .product-card .product-card__content {
+          padding: 0 !important;
+        }
+
+        product-recommendations .product_title,
+        product-recommendations rte-formatter.product_title,
+        product-recommendations .text-block.product_title,
+        product-recommendations product-price {
+          padding-left: 6px !important;
+          padding-right: 6px !important;
+        }
+      }
+
+      /* Mobile Product Card Layout */
+      @media screen and (max-width: 749px) {
+        .product-card .product-card__content {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 6px !important;
+        }
+
+        /* Strip spacing from all card content children */
+        .product-card .product-card__content > *,
+        .product-card .product-card__content > a.contents > *,
+        .product-card .product-card__content .text-block,
+        .product-card .product-card__content product-price,
+        .product-card .product-card__content rte-formatter,
+        .product-card .product-card__content .product_title {
+          margin: 0 !important;
+          margin-block: 0 !important;
+          margin-inline: 0 !important;
+          padding: 0 !important;
+          padding-block: 0 !important;
+          padding-inline: 0 !important;
+          --padding-block-start: 0px !important;
+          --padding-block-end: 0px !important;
+          --padding-inline-start: 0px !important;
+          --padding-inline-end: 0px !important;
+          box-sizing: border-box !important;
+          width: 100% !important;
+        }
+
+        .product-card .product_title p,
+        .product-card .text-block.product_title p,
+        .product-card rte-formatter.product_title p {
+          margin: 0 !important;
+          margin-block: 0 !important;
+          padding: 0 !important;
+        }
+
+        /* Consistent left/right padding on title and price */
+        .product-card .product_title,
+        .product-card rte-formatter.product_title,
+        .product-card .text-block.product_title,
+        .product-card product-price {
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+        }
+
+        /* Title - 13px, 400 weight */
+        .product-card .product_title,
+        .product-card .product_title p,
+        .product-card rte-formatter.product_title,
+        .product-card rte-formatter.product_title p,
+        .product-card .text-block.product_title p {
+          font-size: 13px !important;
+          font-weight: 400 !important;
+        }
+
+        /* Price - 13px */
+        .product-card .compare-at-price {
+          font-size: 13px !important;
+          color: #000000 !important;
+        }
+
+        .product-card .price {
+          font-size: 13px !important;
+        }
+
+        /* Price container spacing */
+        .product-card [ref="priceContainer"] {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 6px !important;
+        }
+
+        /* Tax/GST info */
+        .product-card .tax-gst-info {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 2px !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          line-height: 1.4 !important;
+        }
+
+        .product-card .tax-gst-info .inclusive {
+          margin: 0 !important;
+          line-height: 1.4 !important;
+        }
+
+        /* GST benefit - 12px, 700 weight */
+        .product-card .tax-gst-info .gst-benefit {
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          color: #000000 !important;
+          margin: 0 !important;
+          line-height: 1.4 !important;
+        }
       }
 
       /* Mobile adjustments */
