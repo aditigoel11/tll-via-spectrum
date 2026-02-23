@@ -514,7 +514,7 @@
     line-height: var(--menu-child-font-line-height);
     text-transform: var(--menu-child-font-case);
     color: var(--menu-child-font-color);
-    white-space: normal;
+    white-space: nowrap;
     text-decoration: none;
     display: inline-flex;
     padding: var(--padding-2xs) 0;
@@ -650,11 +650,12 @@
 
   .mega-menu__list {
     display: grid;
-    grid-template-columns: subgrid;
+    grid-template-columns: repeat(var(--menu-columns-tablet), auto);
     grid-column: span var(--menu-columns-tablet);
     gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
 
     @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(var(--menu-columns-desktop), auto);
       grid-column: span var(--menu-columns-desktop);
     }
   }
