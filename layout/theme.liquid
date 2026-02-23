@@ -1582,6 +1582,23 @@
         }
       }
 
+      /* PDP - make product details sticky on desktop while scrolling through images */
+      @media screen and (min-width: 750px) {
+        main[data-template="product"] .product-details {
+          position: sticky !important;
+          top: var(--sticky-header-offset, 0) !important;
+          align-self: start !important;
+          z-index: var(--layer-flat, 1) !important;
+        }
+      }
+
+      /* PDP - hide Buy Now (accelerated checkout) button on desktop */
+      @media screen and (min-width: 750px) {
+        main[data-template="product"] .accelerated-checkout-block {
+          display: none !important;
+        }
+      }
+
     </style>
   </head>
 
